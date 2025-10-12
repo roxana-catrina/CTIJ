@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-
-public class GameManager : MonoBehaviour
+﻿using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+public class CoinManager : MonoBehaviour
 {
-    public static GameManager instance; // Singleton
+    public static CoinManager instance; // Singleton
     public int coinsCollected = 0; // Numărul de monede colectate
-
+    public TextMeshProUGUI textCoin; // Referință la UI Text pentru afișarea monedelor
     void Awake()
     {
         // Asigură-te că există o singură instanță
@@ -23,5 +24,9 @@ public class GameManager : MonoBehaviour
     {
         coinsCollected++;
         Debug.Log("Monede colectate: " + coinsCollected);
+    }
+    private void Update()
+    {
+        textCoin.text = coinsCollected.ToString();
     }
 }

@@ -7,6 +7,7 @@ public class CoinUI : MonoBehaviour
 
     void Update()
     {
-        coinText.text = "Coins: " + GameManager.instance.coinsCollected;
+        coinText.text = "Coins: " + 
+            CoinManager.instance.coinsCollected;
     }
 }
