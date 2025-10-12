@@ -23,4 +23,28 @@ public class PlayerMovement : MonoBehaviour
         // mută playerul
         transform.Translate(move);
     }
+
+    private Vector2 screenBounds;
+    private float playerWidth;
+    private float playerHeight;
+
+    void Start()
+    {
+        Camera mainCamera = Camera.main;
+        screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        playerWidth = sr.bounds.extents.x;
+        playerHeight = sr.bounds.extents.y;
+    }
+
+    void LateUpdate()
+    {
+        Vector3 pos = transform.position;
+
+        // Limite pe X și Y
+        pos.x = Mathf.Clamp(pos.x, -screenBounds.x + playerWidth, screenBounds.x - playerWidth);
+        pos.y = Mathf.Clamp(pos.y, -screenBounds.y + playerHeight, screenBounds.y - playerHeight);
+
+        transform.position = pos;
+    }
 }
