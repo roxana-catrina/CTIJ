@@ -32,9 +32,9 @@ public class PlayerMovement : MonoBehaviour
     {
         Camera mainCamera = Camera.main;
         screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+       /* SpriteRenderer sr = GetComponent<SpriteRenderer>();
         playerWidth = sr.bounds.extents.x;
-        playerHeight = sr.bounds.extents.y;
+        playerHeight = sr.bounds.extents.y;*/
     }
 
     void LateUpdate()
