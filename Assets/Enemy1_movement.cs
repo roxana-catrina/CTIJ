@@ -1,0 +1,40 @@
+using UnityEngine;
+
+public class Enemy1_movement : MonoBehaviour
+{
+    public float speed = 3f;
+    private Transform player;
+    private Rigidbody2D rb;
+
+    void Start()
+    {
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+        }
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    void FixedUpdate()
+    {
+        if (player != null)
+        {
+            Vector2 direction = ((Vector2)player.position - rb.position).normalized;
+            rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            HealthCounter healthCounter = other.GetComponent<HealthCounter>();
+            if (healthCounter != null)
+            {
+                healthCounter.TakeDamage();
+            }
+        }
+    }
+}
+
