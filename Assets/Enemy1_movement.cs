@@ -25,14 +25,14 @@ public class Enemy1_movement : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            HealthCounter healthCounter = other.GetComponent<HealthCounter>();
-            if (healthCounter != null)
+            if (CoinManager.instance != null)
             {
-                healthCounter.TakeDamage();
+                CoinManager.instance.TakeDamage();
+                Debug.Log("Player hit, health: " + CoinManager.instance.health);
             }
         }
     }

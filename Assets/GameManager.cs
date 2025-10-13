@@ -1,17 +1,19 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CoinManager : MonoBehaviour
 {
-    public static CoinManager instance;
-    public int coinsCollected = 0;
-    public int health = 3;  // Starting health
-    public TextMeshProUGUI textCoin;
-    public TextMeshProUGUI textHealth;  // Reference to health UI text
+    public static CoinManager instance; // Singleton
+    public int coinsCollected = 0; // Numărul de monede colectate
+    public int health = 3; // Starting health
+    public TextMeshProUGUI textCoin; // Referință la UI Text pentru afișarea monedelor
+    public TextMeshProUGUI textHealth; // Reference to health display
 
     void Awake()
     {
+        // Asigură-te că există o singură instanță
         if (instance == null)
         {
             instance = this;
@@ -33,17 +35,20 @@ public class CoinManager : MonoBehaviour
     {
         health--;
         Debug.Log("Health remaining: " + health);
-        
+
         if (health <= 0)
         {
-            // Handle game over here
-            Debug.Log("Game Over!");
+            SceneManager.LoadScene("MainMenu");
         }
     }
 
     private void Update()
     {
-        textCoin.text = "Coins: " + coinsCollected.ToString();
+        if (textCoin != null)
+        {
+            textCoin.text = "Coins: " + coinsCollected.ToString();
+        }
+        
         if (textHealth != null)
         {
             textHealth.text = "Health: " + health.ToString();
