@@ -409,6 +409,7 @@ GameObject:
   - component: {fileID: 383246317}
   - component: {fileID: 383246316}
   - component: {fileID: 383246319}
+  - component: {fileID: 383246320}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -459,7 +460,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -537,6 +538,38 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &383246320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383246315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineBrain
+  ShowDebugText: 0
+  ShowCameraFrustum: 1
+  IgnoreTimeScale: 0
+  WorldUpOverride: {fileID: 0}
+  ChannelMask: -1
+  UpdateMethod: 2
+  BlendUpdateMethod: 1
+  LensModeOverride:
+    Enabled: 0
+    DefaultMode: 2
+  DefaultBlend:
+    Style: 1
+    Time: 2
+    CustomCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  CustomBlends: {fileID: 0}
 --- !u!1 &414273793
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,7 +730,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 414273793}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -798,8 +831,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5111697850728305111, guid: 3c155a32fddc6de41b2d37bd29c97af5, type: 3}
   m_PrefabInstance: {fileID: 2863554514715322338}
   m_PrefabAsset: {fileID: 0}
---- !u!58 &1363237805
-CircleCollider2D:
+--- !u!61 &1363237807
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -832,8 +865,18 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.56
+  m_Offset: {x: 0, y: -0.064365655}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.12, y: 0.98}
+    newSize: {x: 1.23, y: 1.03}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.12, y: 0.8512687}
+  m_EdgeRadius: 0
 --- !u!1 &1497498892
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,7 +917,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497498892}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 33e8ca2464bc36842b5d36dc22fc0779, type: 3}
   m_Name: 
@@ -887,7 +930,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497498892}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e2a7e2a554879d4190995a415491dc8, type: 3}
   m_Name: 
@@ -1465,12 +1508,20 @@ PrefabInstance:
       value: House_4
       objectReference: {fileID: 0}
     - target: {fileID: 8297114466337767828, guid: 3c155a32fddc6de41b2d37bd29c97af5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.616562
+      objectReference: {fileID: 0}
+    - target: {fileID: 8297114466337767828, guid: 3c155a32fddc6de41b2d37bd29c97af5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.4108095
+      objectReference: {fileID: 0}
+    - target: {fileID: 8297114466337767828, guid: 3c155a32fddc6de41b2d37bd29c97af5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.13
+      value: 1.5952
       objectReference: {fileID: 0}
     - target: {fileID: 8297114466337767828, guid: 3c155a32fddc6de41b2d37bd29c97af5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.1
+      value: 2.7913
       objectReference: {fileID: 0}
     - target: {fileID: 8297114466337767828, guid: 3c155a32fddc6de41b2d37bd29c97af5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1510,7 +1561,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5111697850728305111, guid: 3c155a32fddc6de41b2d37bd29c97af5, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1363237805}
+      addedObject: {fileID: 1363237807}
   m_SourcePrefab: {fileID: 100100000, guid: 3c155a32fddc6de41b2d37bd29c97af5, type: 3}
 --- !u!1001 &3347207842701893326
 PrefabInstance:
