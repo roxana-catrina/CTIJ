@@ -1,5 +1,6 @@
+﻿using System.Diagnostics;
 using UnityEngine;
-
+using UnityEngine;
 public class Enemy1_movement : MonoBehaviour
 {
     public float speed = 3f;
@@ -8,6 +9,7 @@ public class Enemy1_movement : MonoBehaviour
 
     void Start()
     {
+        // Caută obiectul Player normal
         GameObject playerObj = GameObject.FindWithTag("Player");
         if (playerObj != null)
         {
@@ -27,14 +29,18 @@ public class Enemy1_movement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("PoweredPlayer"))
         {
-            HealthCounter healthCounter = other.GetComponent<HealthCounter>();
-            if (healthCounter != null)
+            if (CoinManager.instance != null)
             {
-                healthCounter.TakeDamage();
+                CoinManager.instance.TakeDamage();
+                UnityEngine.Debug.Log("Viata scade! Health curent: " + CoinManager.instance.health);
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning("CoinManager.instance este null!");
             }
         }
     }
-}
 
+}
