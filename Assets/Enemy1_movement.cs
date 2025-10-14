@@ -27,14 +27,14 @@ public class Enemy1_movement : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if (other.CompareTag("Player") || other.CompareTag("PoweredPlayer"))
         {
             if (CoinManager.instance != null)
             {
                 CoinManager.instance.TakeDamage();
-                UnityEngine.Debug.Log("Viata scade! Health curent: " + CoinManager.instance.health);
+                Debug.Log("Player hit, health: " + CoinManager.instance.health);
             }
             else
             {
