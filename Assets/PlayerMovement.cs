@@ -117,4 +117,20 @@ public class PlayerMovement : MonoBehaviour
             Attack();
         }
     }
+
+    public void ResetAppearance()
+    {
+        // Dezactivează poweredChild
+        if (poweredChild != null)
+            poweredChild.SetActive(false);
+
+        // Reactivează playerul normal
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+            sr.enabled = true;
+
+        // Reset alte variabile dacă e nevoie
+        canAttack = false;
+    }
+
 }

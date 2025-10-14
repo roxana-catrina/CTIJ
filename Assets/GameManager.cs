@@ -37,7 +37,8 @@ public class CoinManager : MonoBehaviour
         Debug.Log("Health remaining: " + health);
 
         if (health <= 0)
-        {
+        {  
+
             SceneManager.LoadScene("GameOver");
         }
     }

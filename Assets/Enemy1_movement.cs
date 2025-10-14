@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using UnityEngine;
-using UnityEngine;
+
 public class Enemy1_movement : MonoBehaviour
 {
     public float speed = 3f;
@@ -27,14 +27,14 @@ public class Enemy1_movement : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") || other.CompareTag("PoweredPlayer"))
         {
             if (CoinManager.instance != null)
             {
                 CoinManager.instance.TakeDamage();
-                Debug.Log("Player hit, health: " + CoinManager.instance.health);
+                UnityEngine.Debug.Log("Viata scade! Health curent: " + CoinManager.instance.health);
             }
             else
             {
@@ -42,5 +42,6 @@ public class Enemy1_movement : MonoBehaviour
             }
         }
     }
+
 
 }
