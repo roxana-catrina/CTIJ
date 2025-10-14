@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private float playerHeight;
     public GameObject poweredChild;  // copilul powerplayer
     public bool canAttack = false;
+    private bool facingRight = false; // la început sabia e pe stânga
 
     void Start()
     {
@@ -62,6 +63,18 @@ public class PlayerMovement : MonoBehaviour
 
         // Mută Rigidbody fără să “teleportezi” obiectul
         rb.MovePosition(rb.position + move);
+        if (move.x > 0 && facingRight)
+            Flip(false);
+        else if (move.x < 0 && !facingRight) 
+        Flip(true);
+    }
+    void Flip(bool faceRight)
+    {
+        facingRight = faceRight;
+
+        Vector3 scale = transform.localScale;
+        scale.x = faceRight ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
+        transform.localScale = scale;
     }
 
     void LateUpdate()
