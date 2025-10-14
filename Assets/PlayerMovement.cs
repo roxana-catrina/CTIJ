@@ -58,8 +58,10 @@ public class PlayerMovement : MonoBehaviour
         if (Keyboard.current.aKey.isPressed) move.x = -1;
         else if (Keyboard.current.dKey.isPressed) move.x = 1;
 
-        move = move.normalized * speed;
-        rb.linearVelocity = move;
+        move = move.normalized * speed * Time.fixedDeltaTime;
+
+        // Mută Rigidbody fără să “teleportezi” obiectul
+        rb.MovePosition(rb.position + move);
     }
 
     void LateUpdate()
@@ -116,6 +118,14 @@ public class PlayerMovement : MonoBehaviour
         {
             Attack();
         }
+    }
+    public void ClearAppearance()
+    {
+        if (poweredChild != null)
+            poweredChild.SetActive(false);
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+            sr.enabled = false;
     }
 
     public void ResetAppearance()

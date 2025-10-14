@@ -37,7 +37,12 @@ public class CoinManager : MonoBehaviour
         Debug.Log("Health remaining: " + health);
 
         if (health <= 0)
-        {  
+        {
+            PlayerMovement player = FindObjectOfType<PlayerMovement>();
+            if (player != null)
+            {
+                player.ClearAppearance();
+            }
 
             SceneManager.LoadScene("GameOver");
         }
