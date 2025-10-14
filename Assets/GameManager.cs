@@ -37,7 +37,8 @@ public class CoinManager : MonoBehaviour
         Debug.Log("Health remaining: " + health);
 
         if (health <= 0)
-        {
+        {  
+
             SceneManager.LoadScene("GameOver");
         }
     }
@@ -93,7 +94,7 @@ public class CoinManager : MonoBehaviour
         {
             textCoin.text = "Coins: " + coinsCollected.ToString();
         }
-        
+
         if (textHealth != null)
         {
             textHealth.text = "Health: " + health.ToString();

@@ -1,3 +1,4 @@
+﻿using System.Diagnostics;
 using UnityEngine;
 
 public class Enemy1_movement : MonoBehaviour
@@ -8,6 +9,7 @@ public class Enemy1_movement : MonoBehaviour
 
     void Start()
     {
+        // Caută obiectul Player normal
         GameObject playerObj = GameObject.FindWithTag("Player");
         if (playerObj != null)
         {
@@ -25,16 +27,21 @@ public class Enemy1_movement : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("PoweredPlayer"))
         {
             if (CoinManager.instance != null)
             {
                 CoinManager.instance.TakeDamage();
-                Debug.Log("Player hit, health: " + CoinManager.instance.health);
+                UnityEngine.Debug.Log("Viata scade! Health curent: " + CoinManager.instance.health);
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning("CoinManager.instance este null!");
             }
         }
     }
-}
 
+
+}

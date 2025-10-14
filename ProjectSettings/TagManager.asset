@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Coin
+  - Potion
+  - Enemy
+  - PoweredPlayer
   layers:
   - Default
   - TransparentFX
