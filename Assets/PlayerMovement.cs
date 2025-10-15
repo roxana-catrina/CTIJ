@@ -79,10 +79,10 @@ public class PlayerMovement : MonoBehaviour
 
     void LateUpdate()
     {
-        Vector3 pos = transform.position;
+        /*Vector3 pos = transform.position;
         pos.x = Mathf.Clamp(pos.x, -screenBounds.x + playerWidth, screenBounds.x - playerWidth);
         pos.y = Mathf.Clamp(pos.y, -screenBounds.y + playerHeight, screenBounds.y - playerHeight);
-        transform.position = pos;
+        transform.position = pos;*/
     }
 
 
