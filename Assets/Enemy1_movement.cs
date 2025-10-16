@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemy1_movement : MonoBehaviour
 {
@@ -9,39 +8,44 @@ public class Enemy1_movement : MonoBehaviour
 
     void Start()
     {
-        // Caută obiectul Player normal
+        // Găsește playerul
         GameObject playerObj = GameObject.FindWithTag("Player");
         if (playerObj != null)
         {
             player = playerObj.transform;
         }
+
         rb = GetComponent<Rigidbody2D>();
+
+        // Asigură-te că Enemy are Rigidbody2D setat corect
+        rb.gravityScale = 0;
+        rb.freezeRotation = true;
     }
 
     void FixedUpdate()
     {
-        if (player != null)
-        {
-            Vector2 direction = ((Vector2)player.position - rb.position).normalized;
-            rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
-        }
+        if (player == null)
+            return;
+
+        // Calculează direcția spre player
+        Vector2 direction = ((Vector2)player.position - rb.position).normalized;
+
+        // Mută enemy-ul spre player
+        rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
     }
 
+    // Folosim coliziune fizică reală (nu trigger)
     void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Enemy triggered with: " + other.name);
+
         if (other.CompareTag("Player") || other.CompareTag("PoweredPlayer"))
         {
             if (CoinManager.instance != null)
             {
                 CoinManager.instance.TakeDamage();
-                UnityEngine.Debug.Log("Viata scade! Health curent: " + CoinManager.instance.health);
-            }
-            else
-            {
-                UnityEngine.Debug.LogWarning("CoinManager.instance este null!");
             }
         }
     }
-
 
 }
