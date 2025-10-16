@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
     private Rigidbody2D rb;
-
+    private Vector2 screenBounds;
+    private float playerWidth;
+    private float playerHeight;
     public GameObject poweredChild;  // copilul powerplayer
     public bool canAttack = false;
     private bool facingRight = false; // la început sabia e pe stânga
@@ -26,12 +28,25 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.LogError("Nu s-a găsit poweredChild! Verifică numele copilului în ierarhie.");
         }
+        Debug.Log("poweredChild: " + poweredChild);
 
         if (poweredChild != null)
         {
-            poweredChild.transform.localPosition = Vector3.zero;
+            poweredChild.transform.localPosition = Vector3.zero; // îl aduce exact peste Player
+
             poweredChild.SetActive(false);  // la început nu e activ
         }
+       /* // dimensiuni pentru clamp
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            playerWidth = sr.bounds.extents.x;
+            playerHeight = sr.bounds.extents.y;
+        }*/
+
+        // limitele ecranului
+        Camera mainCamera = Camera.main;
+        screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
     }
 
     void FixedUpdate()
@@ -46,21 +61,68 @@ public class PlayerMovement : MonoBehaviour
 
         move = move.normalized * speed * Time.fixedDeltaTime;
 
+        // Mută Rigidbody fără să “teleportezi” obiectul
         rb.MovePosition(rb.position + move);
-
-        // Flip player după direcție
         if (move.x > 0 && facingRight)
             Flip(false);
-        else if (move.x < 0 && !facingRight)
-            Flip(true);
+        else if (move.x < 0 && !facingRight) 
+        Flip(true);
     }
-
     void Flip(bool faceRight)
     {
         facingRight = faceRight;
+
         Vector3 scale = transform.localScale;
         scale.x = faceRight ? Mathf.Abs(scale.x) : -Mathf.Abs(scale.x);
         transform.localScale = scale;
+    }
+
+   /* void LateUpdate()
+    {
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(pos.x, -screenBounds.x + playerWidth, screenBounds.x - playerWidth);
+        pos.y = Mathf.Clamp(pos.y, -screenBounds.y + playerHeight, screenBounds.y - playerHeight);
+        transform.position = pos;
+    }*/
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Potion"))
+        {
+            canAttack = true;
+
+            if (poweredChild != null)
+            {
+                // poziționăm poweredChild peste player
+                poweredChild.transform.localPosition = Vector3.zero;
+                poweredChild.SetActive(true);
+            }
+
+            // ascunde modelul normal (dacă playerul principal are SpriteRenderer)
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            if (sr != null)
+                sr.enabled = false;
+
+            Destroy(collision.gameObject);
+        }
+    }
+
+
+
+
+    private void Attack()
+    {
+        float attackRange = 1.0f;
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attackRange);
+
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            if (enemy.CompareTag("Enemy"))
+            {
+                Destroy(enemy.gameObject);
+            }
+        }
     }
 
     void Update()
@@ -70,36 +132,6 @@ public class PlayerMovement : MonoBehaviour
             Attack();
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Potion"))
-        {
-            canAttack = true;
-            if (poweredChild != null)
-            {
-                poweredChild.transform.localPosition = Vector3.zero;
-                poweredChild.SetActive(true);
-            }
-
-            SpriteRenderer sr = GetComponent<SpriteRenderer>();
-            if (sr != null) sr.enabled = false;
-
-            Destroy(collision.gameObject);
-        }
-    }
-
-    private void Attack()
-    {
-        float attackRange = 1.0f;
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attackRange);
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            if (enemy.CompareTag("Enemy"))
-                Destroy(enemy.gameObject);
-        }
-    }
-
     public void ClearAppearance()
     {
         if (poweredChild != null)
@@ -111,11 +143,17 @@ public class PlayerMovement : MonoBehaviour
 
     public void ResetAppearance()
     {
+        // Dezactivează poweredChild
         if (poweredChild != null)
             poweredChild.SetActive(false);
+
+        // Reactivează playerul normal
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null)
             sr.enabled = true;
+
+        // Reset alte variabile dacă e nevoie
         canAttack = false;
     }
+
 }
