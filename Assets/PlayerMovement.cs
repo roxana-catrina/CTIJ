@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject poweredChild;  // copilul powerplayer
     public bool canAttack = false;
     private bool facingRight = false; // la început sabia e pe stânga
-
+    [SerializeField] public Transform startPoint;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -47,6 +47,19 @@ public class PlayerMovement : MonoBehaviour
         // limitele ecranului
         Camera mainCamera = Camera.main;
         screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
+        if (startPoint == null)
+        {
+            GameObject startPointObj = GameObject.Find("StartPoint");
+            if (startPointObj != null)
+            {
+                startPoint = startPointObj.transform;
+                Debug.Log("startPoint found in scene: " + startPoint.name);
+            }
+            else
+            {
+                Debug.LogError("No GameObject named 'StartPoint' found in the scene!");
+            }
+        }
     }
 
     void FixedUpdate()
@@ -154,6 +167,22 @@ public class PlayerMovement : MonoBehaviour
 
         // Reset alte variabile dacă e nevoie
         canAttack = false;
+        if (startPoint == null)
+        {
+            GameObject startPointObj = GameObject.Find("StartPoint");
+            if (startPointObj != null)
+            {
+                startPoint = startPointObj.transform;
+                Debug.Log("startPoint reassigned in ResetAppearance: " + startPoint.name);
+            }
+            else
+            {
+                Debug.LogError("No GameObject named 'StartPoint' found in the scene during ResetAppearance!");
+                return; // Iese din metodă dacă startPoint nu este găsit
+            }
+        }
+        transform.position = startPoint.position;
+        transform.rotation = startPoint.rotation;
     }
 
 }

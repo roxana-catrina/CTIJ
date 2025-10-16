@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.Cinemachine;
 
 public class CoinManager : MonoBehaviour
 {
@@ -61,6 +62,36 @@ public class CoinManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StartCoroutine(ReassignUI());
+        if (scene.name == "Level 1")
+        {
+            PlayerMovement player = FindObjectOfType<PlayerMovement>();
+            if (player != null)
+            {
+                if (player.startPoint == null)
+                {
+                    Debug.LogError("startPoint is not assigned in PlayerMovement component!");
+                }
+                player.ResetAppearance();
+
+                // Setează camera să urmărească player-ul
+                CinemachineCamera virtualCamera = FindObjectOfType<CinemachineCamera>();
+                if (virtualCamera != null)
+                {
+                    virtualCamera.Follow = player.transform;
+                    Debug.Log("Camera set to follow player: " + player.gameObject.name);
+                }
+                else
+                {
+                    Debug.LogError("CinemachineVirtualCamera not found in scene!");
+                }
+            }
+            else
+            {
+                Debug.LogError("PlayerMovement not found in scene 'Level 1'!");
+            }
+            coinsCollected = 0; // Numărul de monede colectate
+            health = 3; // Starting health
+        }
     }
 
     private System.Collections.IEnumerator ReassignUI()
