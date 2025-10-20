@@ -104,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag("Potion"))
         {
             canAttack = true;
-
+            CoinManager.instance.AddPotion(); // adaugă o monedă când iei poțiunea
             if (poweredChild != null)
             {
                 // poziționăm poweredChild peste player
@@ -117,6 +117,13 @@ public class PlayerMovement : MonoBehaviour
             if (sr != null)
                 sr.enabled = false;
 
+            Destroy(collision.gameObject);
+        }
+
+
+        if (collision.CompareTag("Map"))
+        {
+            CoinManager.instance.AddMap(); // adaugă o hartă când iei harta
             Destroy(collision.gameObject);
         }
     }
