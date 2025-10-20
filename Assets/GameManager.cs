@@ -9,8 +9,12 @@ public class CoinManager : MonoBehaviour
     public static CoinManager instance; // Singleton
     public int coinsCollected = 0; // Numărul de monede colectate
     public int health = 3; // Starting health
+    public int maps = 0;
+    public int potions = 0;
     public TextMeshProUGUI textCoin; // Referință la UI Text pentru afișarea monedelor
     public TextMeshProUGUI textHealth; // Reference to health display
+    public TextMeshProUGUI textMap;
+    public TextMeshProUGUI textPotion;
 
     void Awake()
     {
@@ -32,6 +36,15 @@ public class CoinManager : MonoBehaviour
         Debug.Log("Monede colectate: " + coinsCollected);
     }
 
+    public void AddMap()
+    {
+        maps++;
+    }
+
+    public void AddPotion()
+    {
+        potions++;
+    }
     public void TakeDamage()
     {
         health--;
@@ -91,6 +104,8 @@ public class CoinManager : MonoBehaviour
             }
             coinsCollected = 0; // Numărul de monede colectate
             health = 3; // Starting health
+            maps = 0;
+            potions = 0;
         }
     }
 
@@ -101,6 +116,8 @@ public class CoinManager : MonoBehaviour
 
         GameObject coinObj = GameObject.Find("TextCoin");
         GameObject healthObj = GameObject.Find("TextHealth");
+        GameObject mapObj = GameObject.Find("TextMap");
+        GameObject potionObj = GameObject.Find("TextPotion");
 
         if (coinObj != null)
             textCoin = coinObj.GetComponent<TMPro.TextMeshProUGUI>();
@@ -112,6 +129,16 @@ public class CoinManager : MonoBehaviour
         else
             textHealth = null;
 
+        if (mapObj != null)
+            textMap = mapObj.GetComponent<TMPro.TextMeshProUGUI>();
+        else
+            textMap = null;
+
+        if (potionObj != null)
+            textPotion = potionObj.GetComponent<TMPro.TextMeshProUGUI>();
+        else
+            textPotion = null;
+
         // Actualizează UI-ul imediat dacă a fost găsit
         UpdateUI();
     }
@@ -119,21 +146,40 @@ public class CoinManager : MonoBehaviour
     private void UpdateUI()
     {
         if (textCoin != null)
-            textCoin.text = "Coins: " + coinsCollected;
+            textCoin.text = "Coins: " + coinsCollected + "/2";
         if (textHealth != null)
-            textHealth.text = "Health: " + health;
+            textHealth.text = "Health: " + health+"/3";
+
+        if (textMap != null)
+        {
+            textMap.text = "Maps: " + maps+ "/1";
+        }
+        if (textPotion != null)
+        {
+            textPotion.text = "Potions: " + potions + "/1";
+        }
     }
 
     private void Update()
     {
         if (textCoin != null)
         {
-            textCoin.text = "Coins: " + coinsCollected.ToString();
+            textCoin.text = "Coins: " + coinsCollected.ToString() + "/2";
         }
 
         if (textHealth != null)
         {
-            textHealth.text = "Health: " + health.ToString();
+            textHealth.text = "Health: " + health.ToString() + "/3";
+        }
+
+
+        if (textMap != null)
+        {
+            textMap.text = "Maps: " + maps.ToString() + "/1";
+        }
+        if (textPotion != null)
+        {
+            textPotion.text = "Potions: " + potions.ToString() + "/1";
         }
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - Potion
   - Enemy
   - PoweredPlayer
+  - Map
   layers:
   - Default
   - TransparentFX
