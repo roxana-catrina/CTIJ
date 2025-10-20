@@ -10,7 +10,7 @@ public class KeyPickup : MonoBehaviour
         {
             if(CoinManager.instance.maps==1 && CoinManager.instance.potions==1 && CoinManager.instance.coinsCollected==2)  
             // trecem la scena Level 2
-            SceneManager.LoadScene("Level 2");
+            SceneManager.LoadScene("BeforeLevel2");
         }
     }
 }
