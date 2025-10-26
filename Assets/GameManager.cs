@@ -75,7 +75,7 @@ public class CoinManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StartCoroutine(ReassignUI());
-        if (scene.name == "Level 1")
+        if (scene.name == "Level 1" || scene.name=="Level 2")
         {
             PlayerMovement player = FindObjectOfType<PlayerMovement>();
             if (player != null)
