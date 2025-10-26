@@ -9,7 +9,7 @@ public class GroundEvent : MonoBehaviour
     public CinemachineCamera mainCamera;
     public Transform cameraFocusPoint; // locul spre care se va uita camera
     public float cameraMoveTime = 2f;
-
+    public GameObject smoke;
     private bool triggered = false;
 
     void OnTriggerEnter2D(Collider2D other)
@@ -32,14 +32,18 @@ public class GroundEvent : MonoBehaviour
         // 2. „Crăpăm” pământul
         if (ground != null)
         {
-            Animator anim = ground.GetComponent<Animator>();
-            if (anim != null)
-                anim.SetTrigger("Crack");
-            else
-                ground.SetActive(false); // dacă nu ai animație
+            ground.SetActive(true); // dacă nu ai animație
+            yield return new WaitForSeconds(1f);
+            ground.SetActive(false); // dacă nu ai animație
         }
 
-        yield return new WaitForSeconds(1f);
+        if (smoke != null)
+        {
+            smoke.SetActive(true); // dacă nu ai animație
+            yield return new WaitForSeconds(1f);
+            smoke.SetActive(false); // dacă nu ai animație
+        }
+
 
         // 3. Activăm inamicul
         if (enemy != null)
