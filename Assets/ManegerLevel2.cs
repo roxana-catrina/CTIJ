@@ -6,7 +6,7 @@ public class ManegerLevel2 : MonoBehaviour
     public Transform startPoint;
     void Awake()
     {
-        if (FindObjectOfType<PlayerMovement>() == null)
+        if (FindFirstObjectByType<PlayerMovement>()== null)
         {
             Instantiate(playerPrefab);
         }
