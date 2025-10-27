@@ -4,6 +4,7 @@ public class ManegerLevel2 : MonoBehaviour
 {
     public GameObject playerPrefab;
     public Transform startPoint;
+    public GameManager spear;
     void Awake()
     {
         if (FindFirstObjectByType<PlayerMovement>()== null)
@@ -12,6 +13,7 @@ public class ManegerLevel2 : MonoBehaviour
         }
 
         startPoint = GameObject.Find("StartPoint").transform;
+        spear.SetActive(false);
 
     }
 }

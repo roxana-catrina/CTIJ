@@ -183,7 +183,10 @@ MonoBehaviour:
   speed: 5
   poweredChild: {fileID: 1055188322494620400}
   canAttack: 0
-  startPoint: {fileID: 0}
+  startPoint: {fileID: 4034617261131484989, guid: ac04f7a86f46f3e4dabe4433d5fa59fd, type: 3}
+  arrowPrefab: {fileID: 0}
+  arrowSpawnPoint: {fileID: 0}
+  spear: {fileID: 0}
 --- !u!114 &6567274612835089761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,10 +203,13 @@ MonoBehaviour:
   health: 3
   maps: 0
   potions: 0
+  coinsForBuy: 0
   textCoin: {fileID: 0}
   textHealth: {fileID: 0}
   textMap: {fileID: 0}
   textPotion: {fileID: 0}
+  item1Bought: 0
+  item1: 0
 --- !u!1001 &1054179628460627294
 PrefabInstance:
   m_ObjectHideFlags: 0

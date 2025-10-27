@@ -10,6 +10,7 @@ TagManager:
   - PoweredPlayer
   - Map
   - Wall
+  - Spear
   layers:
   - Default
   - TransparentFX
