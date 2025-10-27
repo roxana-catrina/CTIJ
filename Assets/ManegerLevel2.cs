@@ -7,7 +7,7 @@ public class ManegerLevel2 : MonoBehaviour
     public GameManager spear;
     void Awake()
     {
-        if (FindObjectOfType<PlayerMovement>() == null)
+        if (FindFirstObjectByType<PlayerMovement>()== null)
         {
             Instantiate(playerPrefab);
         }

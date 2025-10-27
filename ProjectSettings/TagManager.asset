@@ -9,12 +9,13 @@ TagManager:
   - Enemy
   - PoweredPlayer
   - Map
+  - Wall
   - Spear
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - walls
   - Water
   - UI
   - 
@@ -46,6 +47,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: aasdsdasdads
+    uniqueID: 1517781691
+    locked: 0
+  - name: New Layer 2
+    uniqueID: 2924940407
     locked: 0
   m_RenderingLayers:
   - Default
