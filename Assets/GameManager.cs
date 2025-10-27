@@ -15,7 +15,7 @@ public class CoinManager : MonoBehaviour
     public TextMeshProUGUI textHealth; // Reference to health display
     public TextMeshProUGUI textMap;
     public TextMeshProUGUI textPotion;
-
+    public bool item1Bought = false;
     void Awake()
     {
         // Asigură-te că există o singură instanță
@@ -109,7 +109,7 @@ public class CoinManager : MonoBehaviour
         }
     }
 
-    private System.Collections.IEnumerator ReassignUI()
+    public System.Collections.IEnumerator ReassignUI()
     {
         // Așteaptă un frame pentru a te asigura că UI-ul s-a încărcat complet
         yield return null;
@@ -181,5 +181,16 @@ public class CoinManager : MonoBehaviour
         {
             textPotion.text = "Potions: " + potions.ToString() + "/1";
         }
+    }
+
+    public bool BuyItem(int cost, ref bool itemBought)
+    {
+        if (coinsCollected >= cost && !itemBought)
+        {
+            coinsCollected -= cost;
+            itemBought = true;
+            return true;
+        }
+        return false;
     }
 }
