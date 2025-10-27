@@ -9650,6 +9650,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1505905564021469714, guid: cd9033632c401a246984ae4d647489b8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2097463858}
+    - targetCorrespondingSourceObject: {fileID: 1505905564021469714, guid: cd9033632c401a246984ae4d647489b8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2097463861}
   m_SourcePrefab: {fileID: 100100000, guid: cd9033632c401a246984ae4d647489b8, type: 3}
 --- !u!1 &2097463857 stripped
 GameObject:
@@ -9686,7 +9689,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -9744,6 +9747,19 @@ MonoBehaviour:
   pointA: {fileID: 1430260780}
   pointB: {fileID: 128087473}
   speed: 2
+--- !u!114 &2097463861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097463857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f272e7cffb3efae4b8328b05b9b531b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GoblinKillPlayer
+  disappearEffect: {fileID: 1485846665650343755, guid: 1fbafa8b15428dc45b22fae8e99a6ed1, type: 3}
 --- !u!1 &2113598067
 GameObject:
   m_ObjectHideFlags: 0
