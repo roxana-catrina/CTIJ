@@ -11,11 +11,14 @@ public class CoinManager : MonoBehaviour
     public int health = 3; // Starting health
     public int maps = 0;
     public int potions = 0;
+    public int coinsForBuy = 0;
     public TextMeshProUGUI textCoin; // Referință la UI Text pentru afișarea monedelor
     public TextMeshProUGUI textHealth; // Reference to health display
     public TextMeshProUGUI textMap;
     public TextMeshProUGUI textPotion;
     public bool item1Bought = false;
+ 
+    public int item1 = 0;
     void Awake()
     {
         // Asigură-te că există o singură instanță
@@ -34,6 +37,7 @@ public class CoinManager : MonoBehaviour
     {
         coinsCollected++;
         Debug.Log("Monede colectate: " + coinsCollected);
+        coinsForBuy++;
     }
 
     public void AddMap()
@@ -183,12 +187,14 @@ public class CoinManager : MonoBehaviour
         }
     }
 
-    public bool BuyItem(int cost, ref bool itemBought)
+    public bool BuyItem(int cost)
     {
-        if (coinsCollected >= cost && !itemBought)
+        if (coinsForBuy >= cost)
         {
-            coinsCollected -= cost;
-            itemBought = true;
+            coinsForBuy -= cost;
+            coinsCollected= coinsCollected - cost;
+            item1++;
+
             return true;
         }
         return false;
