@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     public bool canAttack = false;
     private bool facingRight = false; // la început sabia e pe stânga
     [SerializeField] public Transform startPoint;
+    public GameObject arrowPrefab;
+    public Transform arrowSpawnPoint;
+    public GameObject spear;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -151,7 +154,39 @@ public class PlayerMovement : MonoBehaviour
         {
             Attack();
         }
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            if (CoinManager.instance.item1>0)
+            {
+                ShootArrow();
+            }
+            else
+            {
+                Debug.Log("Nu ai cumpărat săgeata!");
+            }
+        }
+
     }
+
+    void ShootArrow()
+    {
+        if (spear != null)
+        {
+            Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
+            Debug.Log("Săgeată trasă!");
+            spear.SetActive(true);
+            // ascunde sulița după tragere
+           // yield return new WaitForSeconds(0.5f);
+            //spear.SetActive(false);
+            CoinManager.instance.item1--;
+        }
+        else
+        {
+            Debug.Log("Spear nu e setat în Inspector!");
+        }
+    }
+
     public void ClearAppearance()
     {
         if (poweredChild != null)

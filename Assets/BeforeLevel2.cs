@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public class BeforeLevel2 : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+   
+
     public void StartLevel2()
     {
         SceneManager.LoadScene("Level 2");
@@ -12,10 +14,12 @@ public class BeforeLevel2 : MonoBehaviour
 
     public void BuyItem1()
     {
-        if (CoinManager.instance.BuyItem(1, ref CoinManager.instance.item1Bought))
+        if (CoinManager.instance.BuyItem(1))
         {
             StartCoroutine(CoinManager.instance.ReassignUI());
             Debug.Log("Item 1 cumpărat!");
+           
+
         }
         else
         {
