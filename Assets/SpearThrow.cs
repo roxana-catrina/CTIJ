@@ -17,47 +17,57 @@ public class SpearThrow : MonoBehaviour
 
     void ThrowSpear()
     {
-        GameObject nearestEnemy = FindNearestEnemy();
-
-        if (nearestEnemy == null)
+        if (CoinManager.instance.item1 != 0)
         {
-            Debug.LogWarning("Nu s-a găsit niciun inamic cu tag-ul 'Enemy'!");
-            return;
-        }
+            CoinManager.instance.item1--;
+            GameObject nearestEnemy = FindNearestEnemy();
 
-        Debug.Log("Inamic găsit: " + nearestEnemy.name);
+            if (nearestEnemy == null)
+            {
+                Debug.LogWarning("Nu s-a găsit niciun inamic cu tag-ul 'Enemy'!");
+                return;
+            }
 
-        // Calculează direcția către inamic
-        Vector2 direction = (nearestEnemy.transform.position - transform.position).normalized;
-        Debug.Log("Direcția către inamic: " + direction);
+            Debug.Log("Inamic găsit: " + nearestEnemy.name);
 
-        // Calculează poziția de spawn
-        Vector2 spawnPosition = (Vector2)transform.position + direction * spearOffset;
+            // Calculează direcția către inamic
+            Vector2 direction = (nearestEnemy.transform.position - transform.position).normalized;
+            Debug.Log("Direcția către inamic: " + direction);
 
-        // Creează sulița
-        GameObject spear = Instantiate(spearPrefab, spawnPosition, Quaternion.identity);
-        Debug.Log("Sulița a fost creată la poziția: " + spawnPosition);
+            // Calculează poziția de spawn
+            Vector2 spawnPosition = (Vector2)transform.position + direction * spearOffset;
 
-        // Rotește sulița în direcția inamicului
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        spear.transform.rotation = Quaternion.Euler(0, 0, angle);
+            // Creează sulița
+            GameObject spear = Instantiate(spearPrefab, spawnPosition, Quaternion.identity);
+            Debug.Log("Sulița a fost creată la poziția: " + spawnPosition);
 
-        // Verifică și adaugă velocity
-        Rigidbody2D rb = spear.GetComponent<Rigidbody2D>();
+            // Rotește sulița în direcția inamicului
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            spear.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        if (rb == null)
-        {
-            Debug.LogError("PROBLEMA: Spear-ul nu are Rigidbody2D! Adaugă Rigidbody2D la prefab-ul Spear!");
-            rb = spear.AddComponent<Rigidbody2D>();
+            // Verifică și adaugă velocity
+            Rigidbody2D rb = spear.GetComponent<Rigidbody2D>();
+
+            if (rb == null)
+            {
+                Debug.LogError("PROBLEMA: Spear-ul nu are Rigidbody2D! Adaugă Rigidbody2D la prefab-ul Spear!");
+                rb = spear.AddComponent<Rigidbody2D>();
+                rb.gravityScale = 0;
+            }
+
+            rb.linearVelocity = direction * spearSpeed;
+            Debug.Log("Velocity setat la: " + rb.linearVelocity);
+
+            // Asigură-te că nu este kinematic
+            rb.bodyType = RigidbodyType2D.Dynamic;
             rb.gravityScale = 0;
         }
+        else
+        {
+            Debug.Log("Nu ai suficiente iteme pentru a arunca sulița!");
+        }
 
-        rb.linearVelocity = direction * spearSpeed;
-        Debug.Log("Velocity setat la: " + rb.linearVelocity);
 
-        // Asigură-te că nu este kinematic
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        rb.gravityScale = 0;
     }
 
     GameObject FindNearestEnemy()
