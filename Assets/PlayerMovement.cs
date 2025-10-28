@@ -134,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    private void Attack()
+  /*  private void Attack()
     {
         float attackRange = 1.0f;
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attackRange);
@@ -146,20 +146,20 @@ public class PlayerMovement : MonoBehaviour
                 Destroy(enemy.gameObject);
             }
         }
-    }
+    }*/
 
     void Update()
     {
-        if (canAttack && Keyboard.current.spaceKey.wasPressedThisFrame)
+       /* if (canAttack && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             Attack();
-        }
+        }*/
 
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             if (CoinManager.instance.item1>0)
             {
-                ShootArrow();
+               // ShootArrow();
             }
             else
             {
@@ -169,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    void ShootArrow()
+  /*  void ShootArrow()
     {
         if (spear != null)
         {
@@ -185,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Spear nu e setat în Inspector!");
         }
-    }
+    }*/
 
     public void ClearAppearance()
     {
