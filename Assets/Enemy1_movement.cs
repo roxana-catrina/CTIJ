@@ -3,23 +3,29 @@
 public class Enemy1_movement : MonoBehaviour
 {
     public float speed = 3f;
+    public float detectionRange = 1.5f;
+    public LayerMask wallLayer;
+    
     private Transform player;
     private Rigidbody2D rb;
+    private Vector2 currentDirection;
+    private float stuckTimer = 0f;
+    private Vector2 lastPosition;
 
     void Start()
     {
-        // Găsește playerul
-        GameObject playerObj = GameObject.FindWithTag("Player");
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
             player = playerObj.transform;
         }
 
         rb = GetComponent<Rigidbody2D>();
-
-        // Asigură-te că Enemy are Rigidbody2D setat corect
         rb.gravityScale = 0;
-        rb.freezeRotation = true;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        lastPosition = rb.position;
+        currentDirection = Vector2.right;
     }
 
     void FixedUpdate()
@@ -27,25 +33,73 @@ public class Enemy1_movement : MonoBehaviour
         if (player == null)
             return;
 
-        // Calculează direcția spre player
-        Vector2 direction = ((Vector2)player.position - rb.position).normalized;
-
-        // Mută enemy-ul spre player
-        rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+        Vector2 directionToPlayer = ((Vector2)player.position - rb.position).normalized;
+        
+        // Verifică dacă este drum liber spre player
+        RaycastHit2D hitToPlayer = Physics2D.Raycast(rb.position, directionToPlayer, detectionRange, wallLayer);
+        
+        if (hitToPlayer.collider == null)
+        {
+            // Drum liber - mergi direct spre player
+            currentDirection = directionToPlayer;
+        }
+        else
+        {
+            // Perete în față - caută o direcție liberă
+            currentDirection = FindFreeDirection(directionToPlayer);
+        }
+        
+        // Verifică dacă este blocat
+        if (Vector2.Distance(rb.position, lastPosition) < 0.01f)
+        {
+            stuckTimer += Time.fixedDeltaTime;
+            if (stuckTimer > 0.5f)
+            {
+                // Schimbă direcția aleatoriu când e blocat
+                currentDirection = Random.insideUnitCircle.normalized;
+                stuckTimer = 0f;
+            }
+        }
+        else
+        {
+            stuckTimer = 0f;
+        }
+        
+        lastPosition = rb.position;
+        
+        // Mișcă enemy-ul
+        rb.linearVelocity = currentDirection * speed;
     }
 
-    // Folosim coliziune fizică reală (nu trigger)
-    void OnTriggerEnter2D(Collider2D other)
+    Vector2 FindFreeDirection(Vector2 preferredDirection)
     {
-        Debug.Log("Enemy triggered with: " + other.name);
+        // Testează multiple direcții
+        float[] angles = { 0f, 45f, -45f, 90f, -90f, 135f, -135f };
+        
+        foreach (float angle in angles)
+        {
+            Vector2 testDirection = Quaternion.Euler(0, 0, angle) * preferredDirection;
+            RaycastHit2D hit = Physics2D.Raycast(rb.position, testDirection, detectionRange, wallLayer);
+            
+            if (hit.collider == null)
+            {
+                return testDirection.normalized;
+            }
+        }
+        
+        // Dacă nicio direcție nu e liberă, întoarce-te
+        return -currentDirection;
+    }
 
-        if (other.CompareTag("Player") || other.CompareTag("PoweredPlayer"))
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
         {
             if (CoinManager.instance != null)
             {
                 CoinManager.instance.TakeDamage();
+                Debug.Log("Player hit, health: " + CoinManager.instance.health);
             }
         }
     }
-
 }

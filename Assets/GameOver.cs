@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -14,6 +15,11 @@ public class GameManager : MonoBehaviour
         // Înregistrează callback-ul
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.LoadScene("Level 1");
+    }
+
+    internal void SetActive(bool v)
+    {
+        throw new NotImplementedException();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
