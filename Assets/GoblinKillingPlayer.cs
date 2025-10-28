@@ -4,8 +4,9 @@ using System.Collections;
 
 public class GoblinKillPlayer : MonoBehaviour
 {
-    // referință către prefab-ul de particule
     public GameObject disappearEffect;
+    public GameObject closedGate;
+    public GameObject openGate;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -23,7 +24,7 @@ public class GoblinKillPlayer : MonoBehaviour
                 }
                 else
                 {
-                    // dacă playerul ARE diamantul → goblinul dispare cu particule
+                    // dacă playerul ARE diamantul → goblinul dispare + poarta se deschide
                     StartCoroutine(DestroyWithEffect());
                 }
             }
@@ -32,16 +33,20 @@ public class GoblinKillPlayer : MonoBehaviour
 
     private IEnumerator DestroyWithEffect()
     {
-        // creează efectul la poziția goblinului
+        // Efect de particule
         if (disappearEffect != null)
-        {
             Instantiate(disappearEffect, transform.position, Quaternion.identity);
+
+        yield return new WaitForSeconds(0.5f); // mică pauză pentru efect
+
+        // Deschide poarta
+        if (closedGate != null && openGate != null)
+        {
+            closedGate.SetActive(false); // ascunde poarta închisă
+            openGate.SetActive(true);    // arată poarta deschisă
         }
 
-        // aștepți puțin ca particulele să se vadă
-        yield return new WaitForSeconds(0.5f);
-
-        // distrugi goblinul
+        // Distruge goblinul
         Destroy(gameObject);
     }
 }
