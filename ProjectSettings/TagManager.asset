@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - PoweredPlayer
   - Map
+  - Diamond
   - Wall
   - Spear
   layers:
