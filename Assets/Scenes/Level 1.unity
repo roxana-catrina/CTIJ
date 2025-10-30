@@ -7048,7 +7048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1578869440604896775, guid: b8ef2c88155bc39489ed584c48378626, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.97922
+      value: -12.86
       objectReference: {fileID: 0}
     - target: {fileID: 1578869440604896775, guid: b8ef2c88155bc39489ed584c48378626, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11442,7 +11442,45 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3670553886416234835, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1972784664}
+      addedObject: {fileID: 5422255489712799085}
+    - targetCorrespondingSourceObject: {fileID: 3670553886416234835, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5422255489712799086}
   m_SourcePrefab: {fileID: 100100000, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
+--- !u!1 &5422255489712799084 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3670553886416234835, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
+  m_PrefabInstance: {fileID: 5422255489712799083}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5422255489712799085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5422255489712799084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3540064f790791047975a45752270a4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
+  hasDiamond: 0
+  hasFireball: 0
+--- !u!114 &5422255489712799086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5422255489712799084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 594d79d2c6e5d9049861eb91e5c9bc6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  spearPrefab: {fileID: 8393913286814778280, guid: 289f70048f5d4ed479e760381ba7a086, type: 3}
+  spearSpeed: 10
+  spearOffset: 0.5
 --- !u!1001 &6470972595662573551
 PrefabInstance:
   m_ObjectHideFlags: 0
