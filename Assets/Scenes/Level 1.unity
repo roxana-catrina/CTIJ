@@ -7437,6 +7437,9 @@ MonoBehaviour:
   arrowPrefab: {fileID: 0}
   arrowSpawnPoint: {fileID: 0}
   spear: {fileID: 0}
+  mudSound: {fileID: 0}
+  potionSound: {fileID: 0}
+  mapSound: {fileID: 0}
 --- !u!114 &1497498896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9780,7 +9783,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -11349,6 +11352,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8393913286814778280, guid: 289f70048f5d4ed479e760381ba7a086, type: 3}
     - target: {fileID: 957930748163467600, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
+      propertyPath: mapSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 25cebc8120a9a2543965e9eebd0fb4c4, type: 3}
+    - target: {fileID: 957930748163467600, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
+      propertyPath: mudSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e37e9eea02aa8f84fac6ae518a8bdcd5, type: 3}
+    - target: {fileID: 957930748163467600, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
       propertyPath: startPoint
       value: 
       objectReference: {fileID: 1910359955}
@@ -11356,6 +11367,10 @@ PrefabInstance:
       propertyPath: arrowPrefab
       value: 
       objectReference: {fileID: 8393913286814778280, guid: 289f70048f5d4ed479e760381ba7a086, type: 3}
+    - target: {fileID: 957930748163467600, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
+      propertyPath: potionSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0c18f1545b5533b4e9c51b746cf50acc, type: 3}
     - target: {fileID: 957930748163467600, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
       propertyPath: arrowSpawnPoint
       value: 

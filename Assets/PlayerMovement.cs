@@ -17,6 +17,11 @@ public class PlayerMovement : MonoBehaviour
     public GameObject arrowPrefab;
     public Transform arrowSpawnPoint;
     public GameObject spear;
+    public AudioClip mudSound;  // sunetul de mers prin noroi
+    public AudioClip potionSound;
+    public AudioClip mapSound;
+    private AudioSource mudAudioSource;
+
     void Start()
     {
         originalSpeed = speed;
@@ -66,6 +71,9 @@ public class PlayerMovement : MonoBehaviour
                 Debug.LogError("No GameObject named 'StartPoint' found in the scene!");
             }
         }
+
+        mudAudioSource = GetComponent<AudioSource>();
+
     }
 
     void FixedUpdate()
@@ -109,6 +117,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.CompareTag("Potion"))
         {
+            if (potionSound != null)
+                AudioHelper.PlayClipAtPoint(potionSound, transform.position);
+
+
             canAttack = true;
             CoinManager.instance.AddPotion(); // adaugă o monedă când iei poțiunea
             if (poweredChild != null)
@@ -129,6 +141,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (collision.CompareTag("Map"))
         {
+            if (mapSound != null)
+                AudioHelper.PlayClipAtPoint(mapSound, transform.position);
+           
             CoinManager.instance.AddMap(); // adaugă o hartă când iei harta
             Destroy(collision.gameObject);
         }
@@ -136,6 +151,12 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag("SlowZone"))
         {
             speed = originalSpeed / 3f; // sau orice factor vrei (ex: /2f pentru jumătate)
+            if (mudSound != null && !mudAudioSource.isPlaying)
+            {
+                mudAudioSource.clip = mudSound;
+                mudAudioSource.loop = true;
+                mudAudioSource.Play();
+            }
         }
 
         if (collision.CompareTag("FastZone"))
@@ -149,6 +170,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag("SlowZone"))
         {
             speed = originalSpeed; // revine la viteza normală
+            mudAudioSource.Stop();
         }
 
         if (collision.CompareTag("FastZone"))
