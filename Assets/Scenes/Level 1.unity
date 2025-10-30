@@ -8493,7 +8493,7 @@ Transform:
   m_GameObject: {fileID: 1762159821}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.28, y: 5.43, z: 0}
+  m_LocalPosition: {x: 13.28, y: -1.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9890,6 +9890,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
   hasDiamond: 0
   hasFireball: 0
+--- !u!114 &1972784671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972784663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 594d79d2c6e5d9049861eb91e5c9bc6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpearThrow
+  spearPrefab: {fileID: 8393913286814778280, guid: 289f70048f5d4ed479e760381ba7a086, type: 3}
+  spearSpeed: 10
+  spearOffset: 0.5
 --- !u!1 &1981814592
 GameObject:
   m_ObjectHideFlags: 0
@@ -11331,6 +11346,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3670553886416234835, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1972784665}
+    - targetCorrespondingSourceObject: {fileID: 3670553886416234835, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1972784671}
   m_SourcePrefab: {fileID: 100100000, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
 --- !u!1001 &6470972595662573551
 PrefabInstance:

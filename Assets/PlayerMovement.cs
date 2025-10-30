@@ -169,17 +169,7 @@ public class PlayerMovement : MonoBehaviour
             Attack();
         }
 
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            if (CoinManager.instance.item1>0)
-            {
-               // ShootArrow();
-            }
-            else
-            {
-                Debug.Log("Nu ai cumpărat săgeata!");
-            }
-        }
+        
 
     }
 
