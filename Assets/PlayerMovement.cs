@@ -138,6 +138,10 @@ public class PlayerMovement : MonoBehaviour
             speed = originalSpeed / 3f; // sau orice factor vrei (ex: /2f pentru jumătate)
         }
 
+        if (collision.CompareTag("FastZone"))
+        {
+            speed = originalSpeed * 3f; // sau *2f dacă vrei dublă viteză
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -146,6 +150,12 @@ public class PlayerMovement : MonoBehaviour
         {
             speed = originalSpeed; // revine la viteza normală
         }
+
+        if (collision.CompareTag("FastZone"))
+        {
+            speed = originalSpeed; // revine la normal
+        }
+
     }
 
 
