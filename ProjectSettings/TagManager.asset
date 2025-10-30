@@ -13,6 +13,7 @@ TagManager:
   - Wall
   - Spear
   - SlowZone
+  - FastZone
   layers:
   - Default
   - TransparentFX
