@@ -1,12 +1,10 @@
-﻿﻿using UnityEngine;
+﻿﻿﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
     private float originalSpeed;
-
-
     private Rigidbody2D rb;
     private Vector2 screenBounds;
     private float playerWidth;
@@ -19,14 +17,10 @@ public class PlayerMovement : MonoBehaviour
     public Transform arrowSpawnPoint;
     public GameObject spear;
 
-
-
     public AudioClip mudSound;  // sunetul de mers prin noroi
     public AudioClip potionSound;
     public AudioClip mapSound;
     private AudioSource mudAudioSource;
-
-
     void Start()
     {
         originalSpeed = speed;
@@ -70,10 +64,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.LogError("No GameObject named 'StartPoint' found in the scene!");
             }
         }
-
        // mudAudioSource = gameObject.AddComponent<AudioSource>();
-
-
     }
 
     void FixedUpdate()
@@ -110,10 +101,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.CompareTag("Potion"))
         {
-            if (potionSound != null)
-                AudioHelper.PlayClipAtPoint(potionSound, transform.position);
-
-
             canAttack = true;
             CoinManager.instance.AddPotion(); // adaugă o monedă când iei poțiunea
             if (poweredChild != null)
@@ -134,13 +121,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (collision.CompareTag("Map"))
         {
-            if (mapSound != null)
-                AudioHelper.PlayClipAtPoint(mapSound, transform.position);
-           
             CoinManager.instance.AddMap(); // adaugă o hartă când iei harta
             Destroy(collision.gameObject);
         }
-
 
 
         if (collision.CompareTag("SlowZone"))
@@ -153,17 +136,13 @@ public class PlayerMovement : MonoBehaviour
                  mudAudioSource.loop = true;
                  mudAudioSource.Play();
              }*/
-
         }
 
         if (collision.CompareTag("FastZone"))
         {
             speed = originalSpeed * 3f; // sau *2f dacă vrei dublă viteză
-
             Debug.Log("Entered FastZone, speed increased to: " + speed);    
         }
-
-      
     }
 
 
@@ -258,7 +237,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 Debug.LogError("No GameObject named 'StartPoint' found in the scene during ResetAppearance!");
                 return; // Iese din metodă dacă startPoint nu este găsit
-            }
+            }
         }
         transform.position = startPoint.position;
         transform.rotation = startPoint.rotation;
