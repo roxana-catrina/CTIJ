@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
+    private float originalSpeed;
+
     private Rigidbody2D rb;
     private Vector2 screenBounds;
     private float playerWidth;
@@ -17,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject spear;
     void Start()
     {
+        originalSpeed = speed;
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -128,6 +131,20 @@ public class PlayerMovement : MonoBehaviour
         {
             CoinManager.instance.AddMap(); // adaugă o hartă când iei harta
             Destroy(collision.gameObject);
+        }
+
+        if (collision.CompareTag("SlowZone"))
+        {
+            speed = originalSpeed / 3f; // sau orice factor vrei (ex: /2f pentru jumătate)
+        }
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("SlowZone"))
+        {
+            speed = originalSpeed; // revine la viteza normală
         }
     }
 

@@ -12,6 +12,7 @@ TagManager:
   - Diamond
   - Wall
   - Spear
+  - SlowZone
   layers:
   - Default
   - TransparentFX
