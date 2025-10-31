@@ -20,9 +20,12 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip mudSound;  // sunetul de mers prin noroi
     public AudioClip potionSound;
     public AudioClip mapSound;
+
     public AudioClip iceSound;
     public AudioClip swordSound; 
     private AudioSource audioSource;
+
+   
     void Start()
     {
         originalSpeed = speed;
@@ -66,7 +69,9 @@ public class PlayerMovement : MonoBehaviour
                 Debug.LogError("No GameObject named 'StartPoint' found in the scene!");
             }
         }
+
         audioSource = gameObject.AddComponent<AudioSource>();
+
     }
 
     void FixedUpdate()
@@ -139,17 +144,20 @@ public class PlayerMovement : MonoBehaviour
         {
             speed = originalSpeed / 3f; // sau orice factor vrei (ex: /2f pentru jumătate)
             Debug.Log("Entered SlowZone, speed reduced to: " + speed);
+
             if (mudSound != null && !audioSource.isPlaying)
              {
                  audioSource.clip = mudSound;
                  audioSource.loop = true;
                  audioSource.Play();
              }
+
         }
 
         if (collision.CompareTag("FastZone"))
         {
             speed = originalSpeed * 3f; // sau *2f dacă vrei dublă viteză
+
             Debug.Log("Entered FastZone, speed increased to: " + speed);
              if (iceSound != null && !audioSource.isPlaying)
              {
@@ -157,6 +165,7 @@ public class PlayerMovement : MonoBehaviour
                  audioSource.loop = true;
                  audioSource.Play();
              }    
+
         }
     }
 
@@ -197,15 +206,19 @@ public class PlayerMovement : MonoBehaviour
         {
             speed = originalSpeed; // revine la viteza normală
             Debug.Log("Exited SlowZone, speed restored to: " + speed);
+
             audioSource.Stop();
+
         }
 
         if (collision.CompareTag("FastZone"))
         {
+
             speed = originalSpeed;
 
             Debug.Log("Exited FastZone, speed restored to: " + speed);
             audioSource.Stop();
+
         }
 
         

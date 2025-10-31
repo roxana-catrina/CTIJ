@@ -15,8 +15,10 @@ public class DiamondCollect : MonoBehaviour
                 inventory.hasDiamond = true;
                 Debug.Log("Ai colectat diamantul!");
 
+
                 if (diamondSound != null)
                     AudioHelper.PlayClipAtPoint(diamondSound, transform.position);
+
 
                 Destroy(gameObject);
             }
