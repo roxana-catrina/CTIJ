@@ -9,7 +9,6 @@ public class SpearBehavior : MonoBehaviour
     {
         Destroy(gameObject, lifetime);
 
-        // Configurează Rigidbody2D pentru detectare mai bună
         rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
@@ -20,7 +19,6 @@ public class SpearBehavior : MonoBehaviour
             Debug.LogError("Spear-ul nu are Rigidbody2D!");
         }
 
-        // Verifică dacă are collider
         Collider2D col = GetComponent<Collider2D>();
         if (col == null)
         {
@@ -32,37 +30,37 @@ public class SpearBehavior : MonoBehaviour
         }
     }
 
-    // Pentru Trigger Colliders (Is Trigger = bifat)
     void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Trigger detectat cu: " + collision.gameObject.name + ", Tag: " + collision.tag);
 
         if (collision.CompareTag("Enemy"))
         {
-            Debug.Log("✅ LOVIT! Distrug inamicul și sulița!");
-
-            // Distruge inamicul
-            Destroy(collision.gameObject);
-
-            // Distruge sulița
-            Destroy(gameObject);
+            Debug.Log("INAMIC LOViT");
+            Destroy(collision.gameObject); // Distruge inamicul
+            Destroy(gameObject); // Distruge sulița
+        }
+        else if (collision.CompareTag("Wall") || collision.CompareTag("Obstacle"))
+        {
+            Debug.Log("PERETE LOVit");
+            Destroy(gameObject); // Distruge doar sulița
         }
     }
 
-    // Pentru Non-Trigger Colliders (Is Trigger = nebifat)
     void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Coliziune detectată cu: " + collision.gameObject.name + ", Tag: " + collision.gameObject.tag);
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("✅ LOVIT! Distrug inamicul și sulița!");
-
-            // Distruge inamicul
-            Destroy(collision.gameObject);
-
-            // Distruge sulița
-            Destroy(gameObject);
+            Debug.Log(" INAMIC LOViT");
+            Destroy(collision.gameObject); // Distruge inamicul
+            Destroy(gameObject); // Distruge sulița
+        }
+        else if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Obstacle"))
+        {
+            Debug.Log(" PERETE LOVit!");
+            Destroy(gameObject); // Distruge doar sulița
         }
     }
 }
