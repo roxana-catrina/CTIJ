@@ -7274,6 +7274,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4149070906881351475, guid: b8ef2c88155bc39489ed584c48378626, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4207697258939454554, guid: b8ef2c88155bc39489ed584c48378626, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.2845247
@@ -9995,7 +9999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d79d2c6e5d9049861eb91e5c9bc6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpearThrow
-  spearPrefab: {fileID: 8393913286814778280, guid: 289f70048f5d4ed479e760381ba7a086, type: 3}
+  spearPrefab: {fileID: 1860706049015914, guid: 0b0c27137eb4d504096874b80ace66bd, type: 3}
   spearSpeed: 10
   spearOffset: 0.5
 --- !u!1 &1981814592
@@ -11344,7 +11348,7 @@ PrefabInstance:
     - target: {fileID: 957930748163467600, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
       propertyPath: spear
       value: 
-      objectReference: {fileID: 8393913286814778280, guid: 289f70048f5d4ed479e760381ba7a086, type: 3}
+      objectReference: {fileID: 1860706049015914, guid: 0b0c27137eb4d504096874b80ace66bd, type: 3}
     - target: {fileID: 957930748163467600, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
       propertyPath: iceSound
       value: 
@@ -11368,7 +11372,7 @@ PrefabInstance:
     - target: {fileID: 957930748163467600, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
       propertyPath: arrowPrefab
       value: 
-      objectReference: {fileID: 8393913286814778280, guid: 289f70048f5d4ed479e760381ba7a086, type: 3}
+      objectReference: {fileID: 1860706049015914, guid: 0b0c27137eb4d504096874b80ace66bd, type: 3}
     - target: {fileID: 957930748163467600, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
       propertyPath: potionSound
       value: 
