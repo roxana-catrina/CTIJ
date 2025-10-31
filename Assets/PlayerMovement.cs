@@ -1,11 +1,10 @@
-﻿﻿using UnityEngine;
+﻿﻿﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
     private float originalSpeed;
-
     private Rigidbody2D rb;
     private Vector2 screenBounds;
     private float playerWidth;
@@ -17,11 +16,13 @@ public class PlayerMovement : MonoBehaviour
     public GameObject arrowPrefab;
     public Transform arrowSpawnPoint;
     public GameObject spear;
+
     public AudioClip mudSound;  // sunetul de mers prin noroi
     public AudioClip potionSound;
     public AudioClip mapSound;
-    private AudioSource mudAudioSource;
-
+    public AudioClip iceSound;
+    public AudioClip swordSound; 
+    private AudioSource audioSource;
     void Start()
     {
         originalSpeed = speed;
@@ -47,13 +48,7 @@ public class PlayerMovement : MonoBehaviour
 
             poweredChild.SetActive(false);  // la început nu e activ
         }
-       /* // dimensiuni pentru clamp
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        if (sr != null)
-        {
-            playerWidth = sr.bounds.extents.x;
-            playerHeight = sr.bounds.extents.y;
-        }*/
+      
 
         // limitele ecranului
         Camera mainCamera = Camera.main;
@@ -71,9 +66,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.LogError("No GameObject named 'StartPoint' found in the scene!");
             }
         }
-
-        mudAudioSource = GetComponent<AudioSource>();
-
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     void FixedUpdate()
@@ -104,23 +97,12 @@ public class PlayerMovement : MonoBehaviour
         transform.localScale = scale;
     }
 
-   /* void LateUpdate()
-    {
-        Vector3 pos = transform.position;
-        pos.x = Mathf.Clamp(pos.x, -screenBounds.x + playerWidth, screenBounds.x - playerWidth);
-        pos.y = Mathf.Clamp(pos.y, -screenBounds.y + playerHeight, screenBounds.y - playerHeight);
-        transform.position = pos;
-    }*/
-
+  
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Potion"))
         {
-            if (potionSound != null)
-                AudioHelper.PlayClipAtPoint(potionSound, transform.position);
-
-
             canAttack = true;
             CoinManager.instance.AddPotion(); // adaugă o monedă când iei poțiunea
             if (poweredChild != null)
@@ -135,58 +117,59 @@ public class PlayerMovement : MonoBehaviour
             if (sr != null)
                 sr.enabled = false;
 
+            if (potionSound != null && audioSource != null)
+                audioSource.PlayOneShot(potionSound);
+
             Destroy(collision.gameObject);
         }
 
 
         if (collision.CompareTag("Map"))
         {
-            if (mapSound != null)
-                AudioHelper.PlayClipAtPoint(mapSound, transform.position);
-           
             CoinManager.instance.AddMap(); // adaugă o hartă când iei harta
+
+             if (mapSound != null && audioSource != null)
+                audioSource.PlayOneShot(mapSound);
+
             Destroy(collision.gameObject);
         }
+
 
         if (collision.CompareTag("SlowZone"))
         {
             speed = originalSpeed / 3f; // sau orice factor vrei (ex: /2f pentru jumătate)
-            if (mudSound != null && !mudAudioSource.isPlaying)
-            {
-                mudAudioSource.clip = mudSound;
-                mudAudioSource.loop = true;
-                mudAudioSource.Play();
-            }
+            Debug.Log("Entered SlowZone, speed reduced to: " + speed);
+            if (mudSound != null && !audioSource.isPlaying)
+             {
+                 audioSource.clip = mudSound;
+                 audioSource.loop = true;
+                 audioSource.Play();
+             }
         }
 
         if (collision.CompareTag("FastZone"))
         {
             speed = originalSpeed * 3f; // sau *2f dacă vrei dublă viteză
+            Debug.Log("Entered FastZone, speed increased to: " + speed);
+             if (iceSound != null && !audioSource.isPlaying)
+             {
+                 audioSource.clip = iceSound;
+                 audioSource.loop = true;
+                 audioSource.Play();
+             }    
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("SlowZone"))
-        {
-            speed = originalSpeed; // revine la viteza normală
-            mudAudioSource.Stop();
-        }
-
-        if (collision.CompareTag("FastZone"))
-        {
-            speed = originalSpeed; // revine la normal
-        }
-
-    }
 
 
 
-
-  /*  private void Attack()
+   private void Attack()
     {
         float attackRange = 1.0f;
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attackRange);
+
+         if (swordSound != null)
+             AudioHelper.PlayClipAtPoint(swordSound, transform.position);
 
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -195,46 +178,39 @@ public class PlayerMovement : MonoBehaviour
                 Destroy(enemy.gameObject);
             }
         }
-    }*/
+    }
 
     void Update()
     {
-       /* if (canAttack && Keyboard.current.spaceKey.wasPressedThisFrame)
+        if (canAttack && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             Attack();
-        }*/
-
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            if (CoinManager.instance.item1>0)
-            {
-               // ShootArrow();
-            }
-            else
-            {
-                Debug.Log("Nu ai cumpărat săgeata!");
-            }
         }
+
+        
 
     }
 
-  /*  void ShootArrow()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (spear != null)
+        if (collision.CompareTag("SlowZone"))
         {
-            Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
-            Debug.Log("Săgeată trasă!");
-            spear.SetActive(true);
-            // ascunde sulița după tragere
-           // yield return new WaitForSeconds(0.5f);
-            //spear.SetActive(false);
-            CoinManager.instance.item1--;
+            speed = originalSpeed; // revine la viteza normală
+            Debug.Log("Exited SlowZone, speed restored to: " + speed);
+            audioSource.Stop();
         }
-        else
+
+        if (collision.CompareTag("FastZone"))
         {
-            Debug.Log("Spear nu e setat în Inspector!");
+            speed = originalSpeed;
+
+            Debug.Log("Exited FastZone, speed restored to: " + speed);
+            audioSource.Stop();
         }
-    }*/
+
+        
+
+    }
 
     public void ClearAppearance()
     {
@@ -270,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 Debug.LogError("No GameObject named 'StartPoint' found in the scene during ResetAppearance!");
                 return; // Iese din metodă dacă startPoint nu este găsit
-            }
+            }
         }
         transform.position = startPoint.position;
         transform.rotation = startPoint.rotation;

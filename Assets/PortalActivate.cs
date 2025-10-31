@@ -7,6 +7,9 @@ public class PortalActivate : MonoBehaviour
     public GameObject portalLightEntry;
     private bool activated = false;
 
+    [Header("Portal Sound")]
+    [SerializeField] private AudioClip portalOpenSound;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (activated) return;
@@ -25,6 +28,9 @@ public class PortalActivate : MonoBehaviour
 
     private IEnumerator ActivatePortal()
     {
+        if (portalOpenSound != null)
+            AudioHelper.PlayClipAtPoint(portalOpenSound, transform.position);
+            
         if (fireballInPortal != null)
         {
             fireballInPortal.SetActive(true);

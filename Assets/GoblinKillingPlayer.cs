@@ -4,9 +4,19 @@ using System.Collections;
 
 public class GoblinKillPlayer : MonoBehaviour
 {
+    [Header("References")]
     public GameObject disappearEffect;
     public GameObject closedGate;
     public GameObject openGate;
+
+    [Header("Goblin Laugh Settings")]
+    [SerializeField] private AudioClip goblinLaugh; // sunetul de râs
+    [SerializeField] private float laughDuration = 1f; // durata râsului
+    [SerializeField] private float laughVolume = 1f;
+
+    [Header("Gate Sound Settings")]
+    [SerializeField] private AudioClip gateOpenSound; // sunetul pentru poartă
+    [SerializeField] private float gateSoundVolume = 1f;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -18,35 +28,47 @@ public class GoblinKillPlayer : MonoBehaviour
             {
                 if (!inventory.hasDiamond)
                 {
-                    // dacă playerul NU are diamantul → Game Over
+                    // Playerul NU are diamantul → Game Over
                     PlayerPrefs.SetString("LastScene", SceneManager.GetActiveScene().name);
                     SceneManager.LoadScene("GameOver");
                 }
                 else
                 {
-                    // dacă playerul ARE diamantul → goblinul dispare + poarta se deschide
-                    StartCoroutine(DestroyWithEffect());
+                    // Playerul ARE diamantul → goblinul râde, apoi dispare, poarta se deschide
+                    StartCoroutine(DestroyWithEffectAndLaugh());
                 }
             }
         }
     }
 
-    private IEnumerator DestroyWithEffect()
+    private IEnumerator DestroyWithEffectAndLaugh()
     {
-        // Efect de particule
+        // 1️⃣ Goblinul râde
+        if (goblinLaugh != null)
+            AudioHelper.PlayClipAtPoint(goblinLaugh, transform.position, laughVolume);
+
+        // 2️⃣ Așteaptă cât durează râsul
+        yield return new WaitForSeconds(laughDuration);
+
+        // 3️⃣ Efect de particule
         if (disappearEffect != null)
             Instantiate(disappearEffect, transform.position, Quaternion.identity);
 
-        yield return new WaitForSeconds(0.5f); // mică pauză pentru efect
+        // 4️⃣ Pauză scurtă pentru efect vizual
+        yield return new WaitForSeconds(0.5f);
 
-        // Deschide poarta
+        // 5️⃣ Deschide poarta
         if (closedGate != null && openGate != null)
         {
-            closedGate.SetActive(false); // ascunde poarta închisă
-            openGate.SetActive(true);    // arată poarta deschisă
+            closedGate.SetActive(false);
+            openGate.SetActive(true);
+
+            // 🔊 Redă sunetul porții
+            if (gateOpenSound != null)
+                AudioHelper.PlayClipAtPoint(gateOpenSound, transform.position, gateSoundVolume);
         }
 
-        // Distruge goblinul
+        // 6️⃣ Distruge goblinul
         Destroy(gameObject);
     }
 }
