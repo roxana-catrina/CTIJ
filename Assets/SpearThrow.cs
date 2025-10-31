@@ -9,7 +9,7 @@ public class SpearThrow : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        if (Keyboard.current.spaceKey.wasPressedThisFrame || Mouse.current.rightButton.wasPressedThisFrame)
         {
             ThrowSpear();
         }
@@ -20,19 +20,22 @@ public class SpearThrow : MonoBehaviour
         if (CoinManager.instance.item1 != 0)
         {
             CoinManager.instance.item1--;
-            GameObject nearestEnemy = FindNearestEnemy();
 
-            if (nearestEnemy == null)
+            // Obține poziția mouse-ului în world space
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, Camera.main.nearClipPlane));
+            Vector2 mouseWorld = new Vector2(mouseWorldPos.x, mouseWorldPos.y);
+
+            // Calculează direcția către mouse
+            Vector2 direction = (mouseWorld - (Vector2)transform.position).normalized;
+            
+            if (direction == Vector2.zero)
             {
-                Debug.LogWarning("Nu s-a găsit niciun inamic cu tag-ul 'Enemy'!");
-                return;
+                Debug.LogWarning("Direcția este zero, folosesc direcția implicită (dreapta)");
+                direction = Vector2.right;
             }
 
-            Debug.Log("Inamic găsit: " + nearestEnemy.name);
-
-            // Calculează direcția către inamic
-            Vector2 direction = (nearestEnemy.transform.position - transform.position).normalized;
-            Debug.Log("Direcția către inamic: " + direction);
+            Debug.Log("Direcția către mouse: " + direction);
 
             // Calculează poziția de spawn
             Vector2 spawnPosition = (Vector2)transform.position + direction * spearOffset;
@@ -41,7 +44,7 @@ public class SpearThrow : MonoBehaviour
             GameObject spear = Instantiate(spearPrefab, spawnPosition, Quaternion.identity);
             Debug.Log("Sulița a fost creată la poziția: " + spawnPosition);
 
-            // Rotește sulița în direcția inamicului
+            // Rotește sulița în direcția mouse-ului
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             spear.transform.rotation = Quaternion.Euler(0, 0, angle);
 
@@ -50,7 +53,7 @@ public class SpearThrow : MonoBehaviour
 
             if (rb == null)
             {
-                Debug.LogError("PROBLEMA: Spear-ul nu are Rigidbody2D! Adaugă Rigidbody2D la prefab-ul Spear!");
+                Debug.LogWarning("Spear-ul nu are Rigidbody2D! Se adaugă automat.");
                 rb = spear.AddComponent<Rigidbody2D>();
                 rb.gravityScale = 0;
             }
@@ -61,40 +64,11 @@ public class SpearThrow : MonoBehaviour
             // Asigură-te că nu este kinematic
             rb.bodyType = RigidbodyType2D.Dynamic;
             rb.gravityScale = 0;
+            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         }
         else
         {
             Debug.Log("Nu ai suficiente iteme pentru a arunca sulița!");
         }
-
-
-    }
-
-    GameObject FindNearestEnemy()
-    {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        if (enemies.Length == 0)
-        {
-            Debug.LogWarning("Nu există obiecte cu tag-ul 'Enemy' în scenă!");
-            return null;
-        }
-
-        Debug.Log("Număr de inamici găsiți: " + enemies.Length);
-
-        GameObject nearest = null;
-        float minDistance = Mathf.Infinity;
-
-        foreach (GameObject enemy in enemies)
-        {
-            float distance = Vector2.Distance(transform.position, enemy.transform.position);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                nearest = enemy;
-            }
-        }
-
-        return nearest;
     }
 }
