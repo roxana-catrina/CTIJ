@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject arrowPrefab;
     public Transform arrowSpawnPoint;
     public GameObject spear;
+    public GameObject frozenBall;
 
     public AudioClip mudSound;  // sunetul de mers prin noroi
     public AudioClip potionSound;

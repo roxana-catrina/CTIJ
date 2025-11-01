@@ -14,6 +14,8 @@ TagManager:
   - Spear
   - SlowZone
   - FastZone
+  - FrozenBalll
+  - FrozenBall
   layers:
   - Default
   - TransparentFX
