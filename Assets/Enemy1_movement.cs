@@ -5,12 +5,14 @@ public class Enemy1_movement : MonoBehaviour
     public float speed = 3f;
     public float detectionRange = 1.5f;
     public LayerMask wallLayer;
+    public float damageCooldown = 1f; // Cooldown între damage-uri
     
     private Transform player;
     private Rigidbody2D rb;
     private Vector2 currentDirection;
     private float stuckTimer = 0f;
     private Vector2 lastPosition;
+    private float lastDamageTime = 0f;
 
     void Start()
     {
@@ -95,10 +97,19 @@ public class Enemy1_movement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (CoinManager.instance != null)
+            // Verifică cooldown-ul pentru a evita damage-ul repetat
+            if (Time.time - lastDamageTime >= damageCooldown)
             {
-                CoinManager.instance.TakeDamage();
-                Debug.Log("Player hit, health: " + CoinManager.instance.health);
+                if (CoinManager.instance != null)
+                {
+                    CoinManager.instance.TakeDamage();
+                    lastDamageTime = Time.time;
+                    Debug.Log("Enemy hit player, health: " + CoinManager.instance.health);
+                }
+                else
+                {
+                    Debug.LogError("CoinManager.instance is null!");
+                }
             }
         }
     }
