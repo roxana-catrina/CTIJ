@@ -152,9 +152,9 @@ public class CoinManager : MonoBehaviour
     private void UpdateUI()
     {
         if (textCoin != null)
-            textCoin.text = "Coins: " + coinsCollected + "/2";
+            textCoin.text =  coinsCollected.ToString();
         if (textHealth != null)
-            textHealth.text = "Health: " + health+"/3";
+            textHealth.text =  health.ToString();
 
         if (textMap != null)
         {
@@ -162,7 +162,7 @@ public class CoinManager : MonoBehaviour
         }
         if (textPotion != null)
         {
-            textPotion.text = "Potions: " + potions + "/1";
+            textPotion.text = potions.ToString();
         }
     }
 
@@ -170,12 +170,12 @@ public class CoinManager : MonoBehaviour
     {
         if (textCoin != null)
         {
-            textCoin.text = "Coins: " + coinsCollected.ToString() + "/2";
+            textCoin.text =  coinsCollected.ToString() ;
         }
 
         if (textHealth != null)
         {
-            textHealth.text = "Health: " + health.ToString() + "/3";
+            textHealth.text =  health.ToString();
         }
 
 
@@ -185,7 +185,7 @@ public class CoinManager : MonoBehaviour
         }
         if (textPotion != null)
         {
-            textPotion.text = "Potions: " + potions.ToString() + "/1";
+            textPotion.text = potions.ToString() ;
         }
     }
 
