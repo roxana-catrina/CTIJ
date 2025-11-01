@@ -16,6 +16,7 @@ public class CoinManager : MonoBehaviour
     public TextMeshProUGUI textHealth; // Reference to health display
     public TextMeshProUGUI textMap;
     public TextMeshProUGUI textPotion;
+    public GameObject healthUI; // Reference to health UI GameObject
     public bool item1Bought = false;
     public bool item2Bought = false;
 
@@ -103,15 +104,29 @@ public class CoinManager : MonoBehaviour
                 {
                     Debug.LogError("CinemachineVirtualCamera not found in scene!");
                 }
+
+                // Activează UI-ul de viață
+                if (healthUI != null)
+                {
+                    healthUI.SetActive(true);
+                }
             }
             else
             {
                 Debug.LogError("PlayerMovement not found in scene 'Level 1'!");
             }
-            coinsCollected = 0; // Numărul de monede colectate
-            health = 3; // Starting health
+            coinsCollected = 0;
+            health = 3;
             maps = 0;
             potions = 0;
+        }
+        else
+        {
+            // Dezactivează UI-ul de viață în alte scene
+            if (healthUI != null)
+            {
+                healthUI.SetActive(false);
+            }
         }
     }
 
@@ -124,6 +139,12 @@ public class CoinManager : MonoBehaviour
         GameObject healthObj = GameObject.Find("TextHealth");
         GameObject mapObj = GameObject.Find("TextMap");
         GameObject potionObj = GameObject.Find("TextPotion");
+
+        // Găsește și referința pentru healthUI dacă nu este setată
+        if (healthUI == null)
+        {
+            healthUI = GameObject.Find("TextHealth"); // Înlocuiește cu numele corect al GameObject-ului tău
+        }
 
         if (coinObj != null)
             textCoin = coinObj.GetComponent<TMPro.TextMeshProUGUI>();
