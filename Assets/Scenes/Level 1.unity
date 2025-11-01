@@ -7633,6 +7633,7 @@ MonoBehaviour:
   arrowPrefab: {fileID: 0}
   arrowSpawnPoint: {fileID: 0}
   spear: {fileID: 0}
+  frozenBall: {fileID: 0}
   mudSound: {fileID: 0}
   potionSound: {fileID: 0}
   mapSound: {fileID: 0}
@@ -9140,7 +9141,9 @@ MonoBehaviour:
   textMap: {fileID: 806971595}
   textPotion: {fileID: 168365268}
   item1Bought: 0
+  item2Bought: 0
   item1: 0
+  item2: 0
 --- !u!114 &1841844827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10000,8 +10003,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpearThrow
   spearPrefab: {fileID: 1860706049015914, guid: 0b0c27137eb4d504096874b80ace66bd, type: 3}
-  spearSpeed: 10
-  spearOffset: 0.5
+  frozenBallPrefab: {fileID: 8496263627464939446, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+  projectileSpeed: 10
+  projectileOffset: 0.5
 --- !u!1 &1981814592
 GameObject:
   m_ObjectHideFlags: 0
@@ -11361,6 +11365,10 @@ PrefabInstance:
       propertyPath: mudSound
       value: 
       objectReference: {fileID: 8300000, guid: e37e9eea02aa8f84fac6ae518a8bdcd5, type: 3}
+    - target: {fileID: 957930748163467600, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
+      propertyPath: frozenBall
+      value: 
+      objectReference: {fileID: 8496263627464939446, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
     - target: {fileID: 957930748163467600, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
       propertyPath: startPoint
       value: 

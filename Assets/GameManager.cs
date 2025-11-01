@@ -17,8 +17,10 @@ public class CoinManager : MonoBehaviour
     public TextMeshProUGUI textMap;
     public TextMeshProUGUI textPotion;
     public bool item1Bought = false;
- 
+    public bool item2Bought = false;
+
     public int item1 = 0;
+    public int item2 = 0;
     void Awake()
     {
         // Asigură-te că există o singură instanță
@@ -187,13 +189,25 @@ public class CoinManager : MonoBehaviour
         }
     }
 
-    public bool BuyItem(int cost)
+    public bool BuyItem1(int cost)
     {
         if (coinsForBuy >= cost)
         {
             coinsForBuy -= cost;
-            coinsCollected= coinsCollected - cost;
+            coinsCollected = coinsCollected - cost;
             item1++;
+
+            return true;
+        }
+        return false;
+    }
+     public bool BuyItem2(int cost)
+    {
+        if (coinsForBuy >= cost)
+        {
+            coinsForBuy -= cost;
+            coinsCollected = coinsCollected - cost;
+            item2++;
 
             return true;
         }

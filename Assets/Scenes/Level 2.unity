@@ -4274,6 +4274,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1045780217}
+  - {fileID: 5145496241710199289}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &765188406
@@ -11912,8 +11913,79 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpearThrow
   spearPrefab: {fileID: 1860706049015914, guid: 0b0c27137eb4d504096874b80ace66bd, type: 3}
-  spearSpeed: 10
-  spearOffset: 0.5
+  frozenBallPrefab: {fileID: 0}
+  projectileSpeed: 10
+  projectileOffset: 0.5
+--- !u!1001 &5145496241710199288
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 747544129}
+    m_Modifications:
+    - target: {fileID: 954415630744605211, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 954415630744605211, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 954415630744605211, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 954415630744605211, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 954415630744605211, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 954415630744605211, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 954415630744605211, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 954415630744605211, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 954415630744605211, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 954415630744605211, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8496263627464939446, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: m_Name
+      value: FrozenBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 8496263627464939446, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742053766045585338, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+      propertyPath: freezeDuration
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+--- !u!4 &5145496241710199289 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 954415630744605211, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+  m_PrefabInstance: {fileID: 5145496241710199288}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6588080827617738584
 PrefabInstance:
   m_ObjectHideFlags: 0
