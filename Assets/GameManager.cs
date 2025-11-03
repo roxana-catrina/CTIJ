@@ -19,6 +19,7 @@ public class CoinManager : MonoBehaviour
     public GameObject healthUI; // Reference to health UI GameObject
     public bool item1Bought = false;
     public bool item2Bought = false;
+    public string currentLevel; // Salvează nivelul curent
 
     public int item1 = 0;
     public int item2 = 0;
@@ -82,8 +83,12 @@ public class CoinManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StartCoroutine(ReassignUI());
-        if (scene.name == "Level 1" || scene.name=="Level 2")
+        
+        // Salvează nivelul curent când se încarcă Level 1 sau Level 2
+        if (scene.name == "Level 1" || scene.name == "Level 2")
         {
+            currentLevel = scene.name; // Salvează nivelul curent
+            
             PlayerMovement player = FindObjectOfType<PlayerMovement>();
             if (player != null)
             {
