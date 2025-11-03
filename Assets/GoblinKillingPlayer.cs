@@ -14,6 +14,9 @@ public class GoblinKillPlayer : MonoBehaviour
     [SerializeField] private float laughDuration = 1f; // durata râsului
     [SerializeField] private float laughVolume = 1f;
 
+    [Header("Sword Sound Settings")]
+    [SerializeField] private AudioClip swordSound;
+
     [Header("Gate Sound Settings")]
     [SerializeField] private AudioClip gateOpenSound; // sunetul pentru poartă
     [SerializeField] private float gateSoundVolume = 1f;
@@ -28,9 +31,7 @@ public class GoblinKillPlayer : MonoBehaviour
             {
                 if (!inventory.hasDiamond)
                 {
-                    // Playerul NU are diamantul → Game Over
-                    PlayerPrefs.SetString("LastScene", SceneManager.GetActiveScene().name);
-                    SceneManager.LoadScene("GameOver");
+                   StartCoroutine(PlaySwordSoundAndGameOver());
                 }
                 else
                 {
@@ -71,4 +72,19 @@ public class GoblinKillPlayer : MonoBehaviour
         // 6️⃣ Distruge goblinul
         Destroy(gameObject);
     }
+
+    private IEnumerator PlaySwordSoundAndGameOver()
+    {
+        // 1️⃣ Redă sunetul sabiei
+        if (swordSound != null)
+            AudioHelper.PlayClipAtPoint(swordSound, transform.position);
+
+        // 2️⃣ Așteaptă 1 secundă pentru ca sunetul să se audă
+        yield return new WaitForSeconds(1f);
+
+        // 3️⃣ Încarcă scena GameOver
+        PlayerPrefs.SetString("LastScene", SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("GameOver");
+    }
+
 }
