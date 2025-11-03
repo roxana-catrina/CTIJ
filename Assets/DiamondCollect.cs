@@ -18,12 +18,30 @@ public class DiamondCollect : MonoBehaviour
                 if (diamondSound != null)
                     AudioHelper.PlayClipAtPoint(diamondSound, transform.position);
 
+                // Ascunde diamantul din UI
+                HideDiamondUI();
+
                 Destroy(gameObject);
             }
             else
             {
                 Debug.LogWarning("PlayerInventory component nu există pe " + other.name);
             }
+        }
+    }
+
+    private void HideDiamondUI()
+    {
+        // Caută diamantul din UI și ascunde-l
+        GameObject diamondUI = GameObject.Find("DiamondUI"); // Înlocuiește cu numele exact al GameObject-ului tău
+        if (diamondUI != null)
+        {
+            diamondUI.SetActive(false);
+            Debug.Log("Diamantul din UI a fost ascuns!");
+        }
+        else
+        {
+            Debug.LogWarning("DiamondUI nu a fost găsit! Verifică numele GameObject-ului din UI.");
         }
     }
 

@@ -14,7 +14,7 @@ public class BeforeLevel2 : MonoBehaviour
 
     public void BuyItem1()
     {
-        if (CoinManager.instance.BuyItem1(1))
+        if (CoinManager.instance.BuyItem1(5))
         {
             StartCoroutine(CoinManager.instance.ReassignUI());
             Debug.Log("Item 1 cumpărat!");
@@ -28,7 +28,7 @@ public class BeforeLevel2 : MonoBehaviour
     }
      public void BuyItem2()
     {
-        if (CoinManager.instance.BuyItem2(1))
+        if (CoinManager.instance.BuyItem2(5))
         {
             StartCoroutine(CoinManager.instance.ReassignUI());
             Debug.Log("Item 1 cumpărat!");

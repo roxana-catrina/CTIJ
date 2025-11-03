@@ -12,9 +12,14 @@ public class GameManager : MonoBehaviour
             CoinManager.instance.coinsCollected = 0;
         }
 
+        // Obține nivelul curent salvat
+        string levelToLoad = CoinManager.instance != null && !string.IsNullOrEmpty(CoinManager.instance.currentLevel) 
+            ? CoinManager.instance.currentLevel 
+            : "Level 1";
+
         // Înregistrează callback-ul
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.LoadScene("Level 1");
+        SceneManager.LoadScene(levelToLoad);
     }
 
     internal void SetActive(bool v)
@@ -24,7 +29,8 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Level 1")
+        // Verifică dacă este un nivel de joc (Level 1 sau Level 2)
+        if (scene.name.StartsWith("Level"))
         {
             PlayerMovement player = FindObjectOfType<PlayerMovement>();
             if (player != null)
