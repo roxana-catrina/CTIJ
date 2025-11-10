@@ -4,12 +4,15 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Obsolete]
     public void RestartGame()
     {
         if (CoinManager.instance != null)
         {
             CoinManager.instance.health = 3;
             CoinManager.instance.coinsCollected = 0;
+            CoinManager.instance.item1 = CoinManager.instance.item1restart;
+            CoinManager.instance.item2 = CoinManager.instance.item2restart;
         }
 
         // Obține nivelul curent salvat
@@ -27,6 +30,7 @@ public class GameManager : MonoBehaviour
         throw new NotImplementedException();
     }
 
+    [Obsolete]
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Verifică dacă este un nivel de joc (Level 1 sau Level 2)

@@ -23,6 +23,9 @@ public class CoinManager : MonoBehaviour
 
     public int item1 = 0;
     public int item2 = 0;
+    public int item1restart = 0;
+    public int item2restart = 0;
+
     void Awake()
     {
         // Asigură-te că există o singură instanță
@@ -53,6 +56,8 @@ public class CoinManager : MonoBehaviour
     {
         potions++;
     }
+
+    [System.Obsolete]
     public void TakeDamage()
     {
         health--;
@@ -70,16 +75,19 @@ public class CoinManager : MonoBehaviour
         }
     }
 
+    [System.Obsolete]
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    [System.Obsolete]
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    [System.Obsolete]
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StartCoroutine(ReassignUI());
@@ -124,6 +132,17 @@ public class CoinManager : MonoBehaviour
             health = 3;
             maps = 0;
             potions = 0;
+            // NU resetăm item1 și item2 aici - rămân păstrate între niveluri
+        }
+        else if (scene.name == "BeforeLevel2")
+        {
+            // În scena BeforeLevel2, restaurăm monedele pentru cumpărături
+            // dar doar dacă vine din Level 1, nu la restart
+            // Dezactivează UI-ul de viață
+            if (healthUI != null)
+            {
+                healthUI.SetActive(false);
+            }
         }
         else
         {
@@ -222,7 +241,8 @@ public class CoinManager : MonoBehaviour
             coinsForBuy -= cost;
             coinsCollected = coinsCollected - cost;
             item1++;
-
+            item1restart = item1;
+            
             return true;
         }
         return false;
@@ -234,7 +254,7 @@ public class CoinManager : MonoBehaviour
             coinsForBuy -= cost;
             coinsCollected = coinsCollected - cost;
             item2++;
-
+            item2restart = item2;
             return true;
         }
         return false;
