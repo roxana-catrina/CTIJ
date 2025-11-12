@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
     {
        
 
-            SceneManager.LoadScene("BeforeLevel1");
+            SceneManager.LoadScene("Story");
         
     }
 }
