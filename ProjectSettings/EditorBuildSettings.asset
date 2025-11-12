@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/BeforeLevel2Demo.unity
     guid: a70a900c28b66db408b27e99f6171095
   - enabled: 1
-    path: Assets/Scenes/FinalScene.unity
+    path: Assets/Scenes/FinalSceneDemo.unity
     guid: 2876b31670af1e94e930fede9c8e6477
   - enabled: 1
     path: Assets/Scenes/BeforeLevel1.unity
@@ -38,6 +38,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 1.unity
     guid: 6aacaaa72abbfbf499291fbd5fc96cc3
+  - enabled: 1
+    path: Assets/Scenes/FinalScene.unity
+    guid: 7b8f902521aa6344fbad4a3ee7b708e7
   - enabled: 1
     path: Assets/Scenes/BeforeLevel1demo.unity
     guid: 3f7df85cd48787049a68a6720bfd3500
