@@ -12,22 +12,37 @@ EditorBuildSettings:
     path: Assets/Scenes/Level 2.unity
     guid: 8269849de92f1b6499aa330513acabff
   - enabled: 1
-    path: Assets/Scenes/GameOver.unity
+    path: Assets/Scenes/GameOverDemo.unity
     guid: 0d697ed7323c7c641a24d90a8be071e5
   - enabled: 1
-    path: Assets/Scenes/BeforeLevel2.unity
+    path: Assets/Scenes/BeforeLevel2Demo.unity
     guid: a70a900c28b66db408b27e99f6171095
   - enabled: 1
-    path: Assets/Scenes/FinalScene.unity
+    path: Assets/Scenes/FinalSceneDemo.unity
     guid: 2876b31670af1e94e930fede9c8e6477
+  - enabled: 1
+    path: Assets/Scenes/BeforeLevel1.unity
+    guid: 50eb1ddb54450a94bb760d5649665664
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 23ff3621aa9f5ce449a16d5eeaac0f72
   - enabled: 1
+    path: Assets/Scenes/Story.unity
+    guid: 1085e22ef8406204f982b523a1207b98
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 1bf5c9da19f5f0f4ca198c9ab5178809
+  - enabled: 1
+    path: Assets/Scenes/BeforeLevel2.unity
+    guid: fab286b6ad1d9174283c31aff2f1c721
+  - enabled: 1
     path: Assets/Scenes/Level 1.unity
     guid: 6aacaaa72abbfbf499291fbd5fc96cc3
   - enabled: 1
-    path: Assets/Scenes/BeforeLevel1.unity
+    path: Assets/Scenes/FinalScene.unity
+    guid: 7b8f902521aa6344fbad4a3ee7b708e7
+  - enabled: 1
+    path: Assets/Scenes/BeforeLevel1demo.unity
     guid: 3f7df85cd48787049a68a6720bfd3500
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
