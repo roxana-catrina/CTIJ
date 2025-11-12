@@ -4,8 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [Obsolete]
-    public void RestartGame()
+      public void RestartGame()
     {
         if (CoinManager.instance != null)
         {
