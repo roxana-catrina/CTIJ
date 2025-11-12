@@ -572,8 +572,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -637,7 +637,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TypewriterEffect
   textComponent: {fileID: 704598960}
-  fullText: "Welcome, traveler. \nThe wind of adventure calls your name."
+  fullText: "Your light fades into the mist\u2026\nYet the spirits whisper \nyour
+    name still.\nRise once more \u2014 destiny awaits beyond failure."
   delay: 0.05
 --- !u!1 &1181838033
 GameObject:
@@ -912,7 +913,7 @@ GameObject:
   - component: {fileID: 1435456747}
   - component: {fileID: 1435456750}
   m_Layer: 0
-  m_Name: RestartButton
+  m_Name: Restart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -982,8 +983,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1435456745}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+      - m_Target: {fileID: 1435456750}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: 
         m_Mode: 1
         m_Arguments:
