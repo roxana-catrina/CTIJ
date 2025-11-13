@@ -1061,7 +1061,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 261179560}
         m_TargetAssemblyTypeName: SurpriseMusic, Assembly-CSharp
-        m_MethodName: PlaySurprise
+        m_MethodName: ToggleSurprise
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
