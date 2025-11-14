@@ -9,10 +9,44 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-
-
         SceneManager.LoadScene("Story");
+    }
 
+    public void ReplayGame()
+    {
+        // Oprește toate sunetele din scena curentă (inclusiv melodia din FinalScene)
+        AudioSource[] allAudioSources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+        foreach (AudioSource audio in allAudioSources)
+        {
+            // Oprește doar audio-urile care nu sunt MusicManager (muzica de fundal)
+            if (audio.GetComponent<MusicManager>() == null)
+            {
+                audio.Stop();
+            }
+        }
+
+        // Repornește muzica de fundal din MusicManager
+        MusicManager musicManager = FindFirstObjectByType<MusicManager>();
+        if (musicManager != null)
+        {
+            AudioSource bgMusic = musicManager.GetComponent<AudioSource>();
+            if (bgMusic != null && !bgMusic.isPlaying)
+            {
+                bgMusic.Play();
+            }
+        }
+
+        // Resetează datele jocului
+        if (CoinManager.instance != null)
+        {
+            CoinManager.instance.health = 3;
+            CoinManager.instance.coinsCollected = 0;
+            CoinManager.instance.item1 = CoinManager.instance.item1restart;
+            CoinManager.instance.item2 = CoinManager.instance.item2restart;
+        }
+
+        // Încarcă prima scenă a jocului
+        SceneManager.LoadScene("Story");
     }
     
      public void QuitGame()
