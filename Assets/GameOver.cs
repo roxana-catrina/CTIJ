@@ -1,10 +1,48 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-      public void RestartGame()
+    [Header("Game Over Settings")]
+    public AudioClip gameOverSound;       // sunetul care va fi redat
+    public float soundDelayTime = 2f;     // timpul până se aude sunetul (2 secunde)
+    
+    private AudioSource audioSource;
+
+    void Awake()
+    {
+        // Obține sau adaugă componenta AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+    }
+
+    void Start()
+    {
+        // Verifică dacă este scena de Game Over
+        if (SceneManager.GetActiveScene().name == "GameOver")
+        {
+            StartCoroutine(PlayGameOverSound());
+        }
+    }
+
+    IEnumerator PlayGameOverSound()
+    {
+        // Așteaptă 2 secunde
+        yield return new WaitForSeconds(soundDelayTime);
+
+        // Redă sunetul
+        if (gameOverSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(gameOverSound);
+        }
+    }
+
+    public void RestartGame()
     {
         if (CoinManager.instance != null)
         {
