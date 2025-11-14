@@ -29,29 +29,37 @@ public class GroundEvent : MonoBehaviour
         mainCamera.Follow = cameraFocusPoint;
         yield return new WaitForSeconds(cameraMoveTime);
 
-        // 2. „Crăpăm” pământul
+        // 2. „Crăpăm" pământul (flacără)
         if (ground != null)
         {
-            ground.SetActive(true); // dacă nu ai animație
+            ground.SetActive(true);
             yield return new WaitForSeconds(1f);
-            ground.SetActive(false); // dacă nu ai animație
+            ground.SetActive(false);
         }
 
+        // 3. Apare fumul
         if (smoke != null)
         {
-            smoke.SetActive(true); // dacă nu ai animație
-            yield return new WaitForSeconds(1f);
-            smoke.SetActive(false); // dacă nu ai animație
+            smoke.SetActive(true);
+            yield return new WaitForSeconds(0.5f); // așteptăm puțin pentru efectul de fum
         }
 
-
-        // 3. Activăm inamicul
+        // 4. Inamicul iese din fum
         if (enemy != null)
+        {
             enemy.SetActive(true);
+            yield return new WaitForSeconds(1f); // inamicul apare în timpul fumului
+        }
 
-        yield return new WaitForSeconds(2f);
+        // 5. Fumul dispare
+        if (smoke != null)
+        {
+            smoke.SetActive(false);
+        }
 
-        // 4. Revenim cu camera la player
+        yield return new WaitForSeconds(1f);
+
+        // 6. Revenim cu camera la player
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
             mainCamera.Follow = player.transform;
