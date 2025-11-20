@@ -48,8 +48,12 @@ public class GameManager : MonoBehaviour
         {
             CoinManager.instance.health = 3;
             CoinManager.instance.coinsCollected = 0;
+            CoinManager.instance.potions = 0; // Resetează potions
+            CoinManager.instance.maps = 0; // Resetează maps
             CoinManager.instance.item1 = CoinManager.instance.item1restart;
             CoinManager.instance.item2 = CoinManager.instance.item2restart;
+            
+            Debug.Log("RestartGame: Potions reset to " + CoinManager.instance.potions);
         }
 
         // Obține nivelul curent salvat
