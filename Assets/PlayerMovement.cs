@@ -274,7 +274,29 @@ public class PlayerMovement : MonoBehaviour
             audioSource.Stop();
         }
         
-        // NU mai mutăm playerul aici - poziția este setată în Awake()
+        // Regăsește startPoint în scenă dacă nu este setat
+        if (startPoint == null)
+        {
+            GameObject startPointObj = GameObject.Find("StartPoint");
+            if (startPointObj != null)
+            {
+                startPoint = startPointObj.transform;
+                Debug.Log("StartPoint regăsit în ResetAppearance: " + startPoint.name);
+            }
+        }
+        
+        // Resetează poziția playerului la startPoint
+        if (startPoint != null)
+        {
+            transform.position = startPoint.position;
+            transform.rotation = startPoint.rotation;
+            Debug.Log("Player repositioned to startPoint: " + startPoint.position);
+        }
+        else
+        {
+            Debug.LogWarning("StartPoint not found! Player stays at current position.");
+        }
+        
         // Reconectează camera Cinemachine la player
         ReconnectCamera();
         
