@@ -49,6 +49,16 @@ public class PlayerMovement : MonoBehaviour
             transform.position = startPoint.position;
             transform.rotation = startPoint.rotation;
             Debug.Log("Player positioned at startPoint in Awake: " + startPoint.position);
+            
+            // Forțează camera să se poziționeze instant pe player
+            CinemachineCamera virtualCamera = FindFirstObjectByType<CinemachineCamera>();
+            if (virtualCamera != null)
+            {
+                virtualCamera.Follow = transform;
+                // Forțează o actualizare instantanee a camerei
+                virtualCamera.OnTargetObjectWarped(transform, transform.position - virtualCamera.transform.position);
+                Debug.Log("Camera forced to player position in Awake");
+            }
         }
     }
 
