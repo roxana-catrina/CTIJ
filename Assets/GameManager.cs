@@ -90,58 +90,27 @@ public class CoinManager : MonoBehaviour
     [System.Obsolete]
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        StartCoroutine(ReassignUI());
-        
         // Salvează nivelul curent când se încarcă Level 1 sau Level 2
         if (scene.name == "Level 1" || scene.name == "Level 2")
         {
             currentLevel = scene.name; // Salvează nivelul curent
             
-            PlayerMovement player = FindObjectOfType<PlayerMovement>();
-            if (player != null)
-            {
-                if (player.startPoint == null)
-                {
-                    Debug.LogError("startPoint is not assigned in PlayerMovement component!");
-                }
-                player.ResetAppearance();
-
-                // Setează camera să urmărească player-ul
-                CinemachineCamera virtualCamera = FindObjectOfType<CinemachineCamera>();
-                if (virtualCamera != null)
-                {
-                    virtualCamera.Follow = player.transform;
-                    Debug.Log("Camera set to follow player: " + player.gameObject.name);
-                }
-                else
-                {
-                    Debug.LogError("CinemachineVirtualCamera not found in scene!");
-                }
-
-                // Activează UI-ul de viață
-                if (healthUI != null)
-                {
-                    healthUI.SetActive(true);
-                }
-            }
-            else
-            {
-                Debug.LogError("PlayerMovement not found in scene 'Level 1'!");
-            }
+            // Resetează valorile ÎNAINTE de a reseta playerul
             coinsCollected = 0;
             health = 3;
             maps = 0;
-            potions = 0;
+            potions = 0; // Resetează potions la 0
             // NU resetăm item1 și item2 aici - rămân păstrate între niveluri
-        }
-        else if (scene.name == "BeforeLevel2")
-        {
-            // În scena BeforeLevel2, restaurăm monedele pentru cumpărături
-            // dar doar dacă vine din Level 1, nu la restart
-            // Dezactivează UI-ul de viață
+            
+            Debug.Log("Potions reset to: " + potions);
+            
+            // Folosim doar coroutine-ul pentru a aștepta ca Start() să se execute
+            StartCoroutine(ResetPlayerAfterSceneLoad());
+
+            // Activează UI-ul de viață
             if (healthUI != null)
             {
-                healthUI.SetActive(false);
+                healthUI.SetActive(true);
             }
         }
         else
@@ -151,6 +120,49 @@ public class CoinManager : MonoBehaviour
             {
                 healthUI.SetActive(false);
             }
+        }
+        
+        // Actualizează UI-ul DUPĂ ce ai resetat valorile
+        StartCoroutine(ReassignUI());
+    }
+
+    private System.Collections.IEnumerator ResetPlayerAfterSceneLoad()
+    {
+        // Așteaptă mai mult pentru ca Start() să se execute complet
+        yield return new WaitForSeconds(0.2f);
+        
+        PlayerMovement player = FindObjectOfType<PlayerMovement>();
+        if (player != null)
+        {
+            Debug.Log("Player found after scene load: " + player.gameObject.name);
+            
+            // Asigură-te că resetezi canAttack
+            player.canAttack = false;
+            
+            // Apelează ResetAppearance DUPĂ ce Start() s-a executat
+            player.ResetAppearance();
+            
+            // Setează camera să urmărească player-ul
+            CinemachineCamera virtualCamera = FindObjectOfType<CinemachineCamera>();
+            if (virtualCamera != null)
+            {
+                virtualCamera.Follow = player.transform;
+                Debug.Log("Camera set to follow player: " + player.gameObject.name);
+            }
+            else
+            {
+                Debug.LogError("CinemachineVirtualCamera not found in scene!");
+            }
+            
+            SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                Debug.Log("Player SpriteRenderer enabled: " + sr.enabled);
+            }
+        }
+        else
+        {
+            Debug.LogError("PlayerMovement not found after scene load!");
         }
     }
 
@@ -167,7 +179,7 @@ public class CoinManager : MonoBehaviour
         // Găsește și referința pentru healthUI dacă nu este setată
         if (healthUI == null)
         {
-            healthUI = GameObject.Find("TextHealth"); // Înlocuiește cu numele corect al GameObject-ului tău
+            healthUI = GameObject.Find("TextHealth");
         }
 
         if (coinObj != null)
@@ -190,24 +202,24 @@ public class CoinManager : MonoBehaviour
         else
             textPotion = null;
 
-        // Actualizează UI-ul imediat dacă a fost găsit
+        // Actualizează UI-ul imediat cu valorile resetate
         UpdateUI();
+        
+        Debug.Log("UI reassigned - Potions displayed: " + (textPotion != null ? textPotion.text : "null"));
     }
 
     private void UpdateUI()
     {
         if (textCoin != null)
-            textCoin.text =  coinsCollected.ToString();
+            textCoin.text = coinsCollected.ToString();
         if (textHealth != null)
-            textHealth.text =  health.ToString();
-
+            textHealth.text = health.ToString();
         if (textMap != null)
-        {
-            textMap.text = "Maps: " + maps+ "/1";
-        }
+            textMap.text = "Maps: " + maps + "/1";
         if (textPotion != null)
         {
             textPotion.text = potions.ToString();
+            Debug.Log("Potion UI updated to: " + potions);
         }
     }
 

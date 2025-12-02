@@ -1,5 +1,6 @@
-﻿﻿﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -26,7 +27,10 @@ public class PlayerMovement : MonoBehaviour
     private AudioSource audioSource;
     void Start()
     {
+        Debug.Log("PlayerMovement Start() called - Speed before: " + speed);
         originalSpeed = speed;
+        Debug.Log("PlayerMovement Start() - OriginalSpeed set to: " + originalSpeed);
+        
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -46,10 +50,8 @@ public class PlayerMovement : MonoBehaviour
         if (poweredChild != null)
         {
             poweredChild.transform.localPosition = Vector3.zero; // îl aduce exact peste Player
-
             poweredChild.SetActive(false);  // la început nu e activ
         }
-      
 
         // limitele ecranului
         Camera mainCamera = Camera.main;
@@ -68,6 +70,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         audioSource = gameObject.AddComponent<AudioSource>();
+        
+        Debug.Log("PlayerMovement Start() completed - Speed: " + speed + ", OriginalSpeed: " + originalSpeed);
     }
 
     void FixedUpdate()
@@ -224,17 +228,38 @@ public class PlayerMovement : MonoBehaviour
 
     public void ResetAppearance()
     {
-        // Dezactivează poweredChild
+        Debug.Log("ResetAppearance called!");
+        
+        // Dezactivează poweredChild (forma powered)
         if (poweredChild != null)
+        {
             poweredChild.SetActive(false);
+            Debug.Log("PoweredChild deactivated");
+        }
 
         // Reactivează playerul normal
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null)
+        {
             sr.enabled = true;
+            Debug.Log("SpriteRenderer enabled, player should be visible now");
+        }
+        else
+        {
+            Debug.LogError("SpriteRenderer not found on player!");
+        }
 
-        // Reset alte variabile dacă e nevoie
-        canAttack = false;
+        // Reset alte variabile
+        canAttack = false; // Resetează capacitatea de atac
+        // NU resetăm speed aici - Start() o face automat
+        
+        // Oprește orice sunet care ar putea rula
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+        
+        // Caută startPoint în scenă
         if (startPoint == null)
         {
             GameObject startPointObj = GameObject.Find("StartPoint");
@@ -245,12 +270,35 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                Debug.LogError("No GameObject named 'StartPoint' found in the scene during ResetAppearance!");
-                return; // Iese din metodă dacă startPoint nu este găsit
+                Debug.LogWarning("No GameObject named 'StartPoint' found! Player will stay at current position.");
             }
         }
-        transform.position = startPoint.position;
-        transform.rotation = startPoint.rotation;
+        
+        // Setează poziția doar dacă startPoint este găsit
+        if (startPoint != null)
+        {
+            transform.position = startPoint.position;
+            transform.rotation = startPoint.rotation;
+            Debug.Log("Player repositioned to: " + startPoint.position);
+        }
+
+        // Reconectează camera Cinemachine la player
+        ReconnectCamera();
+        
+        Debug.Log("Speed: " + speed + ", OriginalSpeed: " + originalSpeed + ", CanAttack: " + canAttack);
     }
 
+    private void ReconnectCamera()
+    {
+        CinemachineCamera virtualCamera = FindObjectOfType<CinemachineCamera>();
+        if (virtualCamera != null)
+        {
+            virtualCamera.Follow = transform;
+            Debug.Log("Camera reconnected to player: " + gameObject.name);
+        }
+        else
+        {
+            Debug.LogWarning("CinemachineCamera not found in scene!");
+        }
+    }
 }

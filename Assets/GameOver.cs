@@ -48,8 +48,12 @@ public class GameManager : MonoBehaviour
         {
             CoinManager.instance.health = 3;
             CoinManager.instance.coinsCollected = 0;
+            CoinManager.instance.potions = 0; // Resetează potions
+            CoinManager.instance.maps = 0; // Resetează maps
             CoinManager.instance.item1 = CoinManager.instance.item1restart;
             CoinManager.instance.item2 = CoinManager.instance.item2restart;
+            
+            Debug.Log("RestartGame: Potions reset to " + CoinManager.instance.potions);
         }
 
         // Obține nivelul curent salvat
@@ -57,8 +61,7 @@ public class GameManager : MonoBehaviour
             ? CoinManager.instance.currentLevel 
             : "Level 1";
 
-        // Înregistrează callback-ul
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        // NU mai înregistrăm callback-ul aici, lăsăm CoinManager să se ocupe
         SceneManager.LoadScene(levelToLoad);
     }
 
@@ -70,17 +73,39 @@ public class GameManager : MonoBehaviour
     [Obsolete]
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("OnSceneLoaded called for scene: " + scene.name);
+        
         // Verifică dacă este un nivel de joc (Level 1 sau Level 2)
         if (scene.name.StartsWith("Level"))
         {
-            PlayerMovement player = FindObjectOfType<PlayerMovement>();
-            if (player != null)
-            {
-                player.ResetAppearance();
-            }
+            // Așteaptă puțin pentru ca toate obiectele să se inițializeze
+            StartCoroutine(ResetPlayerAfterDelay());
+        }
 
-            // Deregistrăm callback-ul pentru a nu-l apela de mai multe ori
-            SceneManager.sceneLoaded -= OnSceneLoaded;
+        // Deregistrăm callback-ul pentru a nu-l apela de mai multe ori
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private System.Collections.IEnumerator ResetPlayerAfterDelay()
+    {
+        yield return new WaitForSeconds(0.1f); // Așteaptă ca scena să se încarce complet
+        
+        PlayerMovement player = FindObjectOfType<PlayerMovement>();
+        if (player != null)
+        {
+            Debug.Log("Player found: " + player.gameObject.name);
+            player.ResetAppearance();
+            
+            // Verifică din nou vizibilitatea
+            SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                Debug.Log("Player SpriteRenderer enabled: " + sr.enabled);
+            }
+        }
+        else
+        {
+            Debug.LogError("PlayerMovement not found in scene after loading!");
         }
     }
 }
