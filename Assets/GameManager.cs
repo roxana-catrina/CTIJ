@@ -104,7 +104,7 @@ public class CoinManager : MonoBehaviour
             
             Debug.Log("Potions reset to: " + potions);
             
-            // Folosim doar coroutine-ul pentru a aștepta ca Start() să se execute
+            // Folosim doar coroutine-ul pentru a aștepta ca Awake() și Start() să se execute
             StartCoroutine(ResetPlayerAfterSceneLoad());
 
             // Activează UI-ul de viață
@@ -128,10 +128,23 @@ public class CoinManager : MonoBehaviour
 
     private System.Collections.IEnumerator ResetPlayerAfterSceneLoad()
     {
-        // Așteaptă mai mult pentru ca Start() să se execute complet
-        yield return new WaitForSeconds(0.2f);
+        // Așteaptă 1 frame pentru ca Awake() să se execute pe toate obiectele
+        yield return null;
         
+        // Poziționează camera IMEDIAT după Awake() dar ÎNAINTE de Start()
         PlayerMovement player = FindObjectOfType<PlayerMovement>();
+        CinemachineCamera virtualCamera = FindObjectOfType<CinemachineCamera>();
+        
+        if (player != null && virtualCamera != null)
+        {
+            virtualCamera.Follow = player.transform;
+            virtualCamera.OnTargetObjectWarped(player.transform, player.transform.position - virtualCamera.transform.position);
+            Debug.Log("Camera instantly positioned on player after Awake()");
+        }
+        
+        // Așteaptă pentru ca Start() să se execute complet
+        yield return new WaitForSeconds(0.1f);
+        
         if (player != null)
         {
             Debug.Log("Player found after scene load: " + player.gameObject.name);
@@ -142,16 +155,12 @@ public class CoinManager : MonoBehaviour
             // Apelează ResetAppearance DUPĂ ce Start() s-a executat
             player.ResetAppearance();
             
-            // Setează camera să urmărească player-ul
-            CinemachineCamera virtualCamera = FindObjectOfType<CinemachineCamera>();
+            // Reconfirmă camera după ResetAppearance()
             if (virtualCamera != null)
             {
                 virtualCamera.Follow = player.transform;
-                Debug.Log("Camera set to follow player: " + player.gameObject.name);
-            }
-            else
-            {
-                Debug.LogError("CinemachineVirtualCamera not found in scene!");
+                virtualCamera.OnTargetObjectWarped(player.transform, player.transform.position - virtualCamera.transform.position);
+                Debug.Log("Camera reconfirmed on player after reset");
             }
             
             SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
