@@ -248,27 +248,63 @@ public class CoinManager : MonoBehaviour
 
     public bool BuyItem1(int cost)
     {
-        if (coinsForBuy >= cost)
+        // Verifică dacă ai suficiente monede ȘI dacă nu ai cumpărat deja de 2 ori
+        if (coinsForBuy >= cost && item1 < 2)
         {
             coinsForBuy -= cost;
             coinsCollected = coinsCollected - cost;
             item1++;
             item1restart = item1;
             
+            if (item1 >= 2)
+            {
+                item1Bought = true; // Marchează ca fiind cumpărat complet după 2 achiziții
+            }
+            
+            Debug.Log("Item 1 cumpărat! Total: " + item1 + "/2, CoinsForBuy: " + coinsForBuy);
             return true;
         }
+        
+        if (item1 >= 2)
+        {
+            Debug.Log("Ai cumpărat deja Item 1 de 2 ori (maxim)!");
+        }
+        else
+        {
+            Debug.Log("Nu ai suficiente monede pentru Item 1! Ai: " + coinsForBuy + ", Necesari: " + cost);
+        }
+        
         return false;
     }
-     public bool BuyItem2(int cost)
+    
+    public bool BuyItem2(int cost)
     {
-        if (coinsForBuy >= cost)
+        // Verifică dacă ai suficiente monede ȘI dacă nu ai cumpărat deja de 2 ori
+        if (coinsForBuy >= cost && item2 < 2)
         {
             coinsForBuy -= cost;
             coinsCollected = coinsCollected - cost;
             item2++;
             item2restart = item2;
+            
+            if (item2 >= 2)
+            {
+                item2Bought = true; // Marchează ca fiind cumpărat complet după 2 achiziții
+            }
+            
+            Debug.Log("Item 2 cumpărat! Total: " + item2 + "/2, CoinsForBuy: " + coinsForBuy);
             return true;
         }
+        
+        if (item2 >= 2)
+        {
+            Debug.Log("Ai cumpărat deja Item 2 de 2 ori (maxim)!");
+        }
+        else
+        {
+            Debug.Log("Nu ai suficiente monede pentru Item 2! Ai: " + coinsForBuy + ", Necesari: " + cost);
+        }
+        
         return false;
     }
 }
