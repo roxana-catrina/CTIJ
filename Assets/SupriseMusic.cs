@@ -3,48 +3,42 @@ using UnityEngine;
 public class SurpriseMusic : MonoBehaviour
 {
     public AudioClip surpriseClip;
-
-    private AudioSource globalMusic;
-    private AudioClip originalClip;
+    private AudioSource audioSource;
     private bool surprisePlaying = false;
 
     void Start()
     {
-        // Găsește AudioSource-ul global care a pornit în Main Menu
-        globalMusic = FindObjectOfType<AudioSource>();
-
-        if (globalMusic == null)
-        {
-            Debug.LogError("No global AudioSource found!");
-            return;
-        }
-
-        // Salvează muzica originală (cea care cânta în Main Menu)
-        originalClip = globalMusic.clip;
+        // Crează propriul AudioSource pentru melodia surpriză
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = surpriseClip;
+        audioSource.playOnAwake = false;
     }
 
     public void ToggleSurprise()
     {
-        if (globalMusic == null) return;
-
         if (!surprisePlaying)
         {
-            // ❗ PORNEȘTE muzica surpriză
-            globalMusic.Stop();
-            globalMusic.clip = surpriseClip;
-            globalMusic.Play();
+            // Oprește muzica de fundal
+            if (MusicManager.Instance != null)
+            {
+                MusicManager.Instance.PauseMusic();
+            }
 
+            // Pornește melodia surpriză
+            audioSource.Play();
             surprisePlaying = true;
         }
         else
         {
-            // ❗ Oprește muzica surpriză și revine la clipul original
-            globalMusic.Stop();
-            globalMusic.clip = originalClip;
-            // dacă vrei să re-pornească muzica originală, decomentează linia:
-            // globalMusic.Play();
-
+            // Oprește melodia surpriză
+            audioSource.Stop();
             surprisePlaying = false;
+
+            // Repornește muzica de fundal
+            if (MusicManager.Instance != null)
+            {
+                MusicManager.Instance.ResumeMusic();
+            }
         }
     }
 }
