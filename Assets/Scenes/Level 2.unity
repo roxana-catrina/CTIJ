@@ -8702,8 +8702,16 @@ PrefabInstance:
       value: Chara_03
       objectReference: {fileID: 0}
     - target: {fileID: 1450553439559674, guid: d102c483fad5a1f48b9b947b6be387ea, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450553439559674, guid: d102c483fad5a1f48b9b947b6be387ea, type: 3}
       propertyPath: m_TagString
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4567295203670988, guid: d102c483fad5a1f48b9b947b6be387ea, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.99
       objectReference: {fileID: 0}
     - target: {fileID: 4567295203670988, guid: d102c483fad5a1f48b9b947b6be387ea, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8711,7 +8719,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4567295203670988, guid: d102c483fad5a1f48b9b947b6be387ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 4567295203670988, guid: d102c483fad5a1f48b9b947b6be387ea, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11095,7 +11103,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.41117477}
+  m_Offset: {x: 0, y: -0.16789702}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -11105,7 +11113,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1.8223495}
+  m_Size: {x: 1, y: 0.66420597}
   m_EdgeRadius: 0
 --- !u!1 &1675946787
 GameObject:
@@ -12017,7 +12025,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1837563560
 Transform:
   m_ObjectHideFlags: 0
