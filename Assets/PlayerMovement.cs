@@ -24,10 +24,22 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip mapSound;
     public AudioClip iceSound;
     public AudioClip swordSound; 
+    
     private AudioSource audioSource;
+    private Sprite originalSprite; // Salvează sprite-ul original
+    private Vector3 originalScale; // Salvează scala originală
 
     void Awake()
     {
+        // Salvează sprite-ul și scala originală ÎNAINTE de orice modificare
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            originalSprite = sr.sprite;
+            originalScale = transform.localScale;
+            Debug.Log("Original sprite and scale saved in Awake");
+        }
+
         // Găsește startPoint IMEDIAT și mută playerul acolo ÎNAINTE de orice altceva
         if (startPoint == null)
         {
@@ -267,11 +279,26 @@ public class PlayerMovement : MonoBehaviour
         if (sr != null)
         {
             sr.enabled = true;
+            
+            // Restaurează sprite-ul original (dacă a fost schimbat de HorseMount)
+            if (originalSprite != null)
+            {
+                sr.sprite = originalSprite;
+                Debug.Log("Original sprite restored");
+            }
+            
             Debug.Log("SpriteRenderer enabled, player should be visible now");
         }
         else
         {
             Debug.LogError("SpriteRenderer not found on player!");
+        }
+
+        // Restaurează scala originală (dacă a fost modificată de HorseMount)
+        if (originalScale != Vector3.zero)
+        {
+            transform.localScale = originalScale;
+            Debug.Log("Original scale restored: " + originalScale);
         }
 
         // Reset alte variabile
