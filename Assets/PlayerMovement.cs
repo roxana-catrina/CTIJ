@@ -25,6 +25,43 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip iceSound;
     public AudioClip swordSound; 
     private AudioSource audioSource;
+
+    void Awake()
+    {
+        // Găsește startPoint IMEDIAT și mută playerul acolo ÎNAINTE de orice altceva
+        if (startPoint == null)
+        {
+            GameObject startPointObj = GameObject.Find("StartPoint");
+            if (startPointObj != null)
+            {
+                startPoint = startPointObj.transform;
+                Debug.Log("startPoint found in Awake: " + startPoint.name);
+            }
+            else
+            {
+                Debug.LogError("No GameObject named 'StartPoint' found in the scene!");
+            }
+        }
+
+        // Mută playerul la startPoint ÎNAINTE ca camera să înceapă să-l urmărească
+        if (startPoint != null)
+        {
+            transform.position = startPoint.position;
+            transform.rotation = startPoint.rotation;
+            Debug.Log("Player positioned at startPoint in Awake: " + startPoint.position);
+            
+            // Forțează camera să se poziționeze instant pe player
+            CinemachineCamera virtualCamera = FindFirstObjectByType<CinemachineCamera>();
+            if (virtualCamera != null)
+            {
+                virtualCamera.Follow = transform;
+                // Forțează o actualizare instantanee a camerei
+                virtualCamera.OnTargetObjectWarped(transform, transform.position - virtualCamera.transform.position);
+                Debug.Log("Camera forced to player position in Awake");
+            }
+        }
+    }
+
     void Start()
     {
         Debug.Log("PlayerMovement Start() called - Speed before: " + speed);
@@ -56,19 +93,7 @@ public class PlayerMovement : MonoBehaviour
         // limitele ecranului
         Camera mainCamera = Camera.main;
         screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
-        if (startPoint == null)
-        {
-            GameObject startPointObj = GameObject.Find("StartPoint");
-            if (startPointObj != null)
-            {
-                startPoint = startPointObj.transform;
-                Debug.Log("startPoint found in scene: " + startPoint.name);
-            }
-            else
-            {
-                Debug.LogError("No GameObject named 'StartPoint' found in the scene!");
-            }
-        }
+        
         audioSource = gameObject.AddComponent<AudioSource>();
         
         Debug.Log("PlayerMovement Start() completed - Speed: " + speed + ", OriginalSpeed: " + originalSpeed);
@@ -259,29 +284,29 @@ public class PlayerMovement : MonoBehaviour
             audioSource.Stop();
         }
         
-        // Caută startPoint în scenă
+        // Regăsește startPoint în scenă dacă nu este setat
         if (startPoint == null)
         {
             GameObject startPointObj = GameObject.Find("StartPoint");
             if (startPointObj != null)
             {
                 startPoint = startPointObj.transform;
-                Debug.Log("startPoint reassigned in ResetAppearance: " + startPoint.name);
-            }
-            else
-            {
-                Debug.LogWarning("No GameObject named 'StartPoint' found! Player will stay at current position.");
+                Debug.Log("StartPoint regăsit în ResetAppearance: " + startPoint.name);
             }
         }
         
-        // Setează poziția doar dacă startPoint este găsit
+        // Resetează poziția playerului la startPoint
         if (startPoint != null)
         {
             transform.position = startPoint.position;
             transform.rotation = startPoint.rotation;
-            Debug.Log("Player repositioned to: " + startPoint.position);
+            Debug.Log("Player repositioned to startPoint: " + startPoint.position);
         }
-
+        else
+        {
+            Debug.LogWarning("StartPoint not found! Player stays at current position.");
+        }
+        
         // Reconectează camera Cinemachine la player
         ReconnectCamera();
         
@@ -290,7 +315,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ReconnectCamera()
     {
-        CinemachineCamera virtualCamera = FindObjectOfType<CinemachineCamera>();
+        CinemachineCamera virtualCamera = FindFirstObjectByType<CinemachineCamera>();
         if (virtualCamera != null)
         {
             virtualCamera.Follow = transform;
