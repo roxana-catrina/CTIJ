@@ -47,4 +47,18 @@ public class SurpriseMusic : MonoBehaviour
             surprisePlaying = false;
         }
     }
+
+    // Metodă pentru a opri muzica surpriză și a reveni la muzica originală
+    public void StopSurpriseAndRestoreOriginal()
+    {
+        if (globalMusic == null) return;
+
+        if (surprisePlaying)
+        {
+            globalMusic.Stop();
+            globalMusic.clip = originalClip;
+            globalMusic.Play(); // Repornește muzica originală
+            surprisePlaying = false;
+        }
+    }
 }
