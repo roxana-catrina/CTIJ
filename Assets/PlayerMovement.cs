@@ -31,13 +31,21 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("PlayerMovement Awake() called for: " + gameObject.name);
+        
         // Salvează sprite-ul și scala originală ÎNAINTE de orice modificare
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null)
         {
             originalSprite = sr.sprite;
             originalScale = transform.localScale;
-            Debug.Log("Original sprite and scale saved in Awake");
+            sr.enabled = true; // ASIGURĂ-TE CĂ ESTE ACTIV DIN AWAKE
+            Debug.Log("Original sprite and scale saved in Awake. SpriteRenderer.enabled = " + sr.enabled);
+            Debug.Log("Player position in Awake: " + transform.position);
+        }
+        else
+        {
+            Debug.LogError("NO SPRITERENDERER FOUND ON PLAYER IN AWAKE!");
         }
 
         // Găsește startPoint IMEDIAT și mută playerul acolo ÎNAINTE de orice altceva
@@ -63,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Player positioned at startPoint in Awake: " + startPoint.position);
             
             // Forțează camera să se poziționeze instant pe player
-            CinemachineCamera virtualCamera = FindFirstObjectByType<CinemachineCamera>();
+            CinemachineCamera virtualCamera = FindAnyObjectByType<CinemachineCamera>();
             if (virtualCamera != null)
             {
                 virtualCamera.Follow = transform;
@@ -84,6 +92,18 @@ public class PlayerMovement : MonoBehaviour
         rb.gravityScale = 0;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+
+        // ASIGURĂ-TE CĂ PLAYERUL ESTE VIZIBIL LA ÎNCEPUT
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            sr.enabled = true;
+            Debug.Log("PlayerMovement Start() - SpriteRenderer enabled: " + sr.enabled);
+        }
+        else
+        {
+            Debug.LogError("PlayerMovement Start() - No SpriteRenderer found on player!");
+        }
 
         // luam copilul powered automat dacă nu a fost asignat
         if (poweredChild == null)
@@ -265,7 +285,15 @@ public class PlayerMovement : MonoBehaviour
 
     public void ResetAppearance()
     {
-        Debug.Log("ResetAppearance called!");
+        Debug.Log("ResetAppearance called on: " + gameObject.name);
+        
+        // Verifică dacă acest obiect ARE SpriteRenderer (este playerul adevărat)
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr == null)
+        {
+            Debug.LogWarning("ResetAppearance called on object WITHOUT SpriteRenderer: " + gameObject.name + " - Skipping visual reset");
+            return; // Nu face nimic dacă nu este playerul vizual
+        }
         
         // Dezactivează poweredChild (forma powered)
         if (poweredChild != null)
@@ -275,24 +303,16 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Reactivează playerul normal
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        if (sr != null)
+        sr.enabled = true;
+        
+        // Restaurează sprite-ul original (dacă a fost schimbat de HorseMount)
+        if (originalSprite != null)
         {
-            sr.enabled = true;
-            
-            // Restaurează sprite-ul original (dacă a fost schimbat de HorseMount)
-            if (originalSprite != null)
-            {
-                sr.sprite = originalSprite;
-                Debug.Log("Original sprite restored");
-            }
-            
-            Debug.Log("SpriteRenderer enabled, player should be visible now");
+            sr.sprite = originalSprite;
+            Debug.Log("Original sprite restored");
         }
-        else
-        {
-            Debug.LogError("SpriteRenderer not found on player!");
-        }
+        
+        Debug.Log("SpriteRenderer enabled, player should be visible now");
 
         // Restaurează scala originală (dacă a fost modificată de HorseMount)
         if (originalScale != Vector3.zero)
@@ -342,7 +362,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ReconnectCamera()
     {
-        CinemachineCamera virtualCamera = FindFirstObjectByType<CinemachineCamera>();
+        CinemachineCamera virtualCamera = FindAnyObjectByType<CinemachineCamera>();
         if (virtualCamera != null)
         {
             virtualCamera.Follow = transform;

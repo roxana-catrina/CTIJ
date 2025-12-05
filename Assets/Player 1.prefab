@@ -103,7 +103,6 @@ GameObject:
   - component: {fileID: 7712116891524655273}
   - component: {fileID: 483139044987551449}
   - component: {fileID: 957930748163467600}
-  - component: {fileID: 1046927503688426619}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -274,23 +273,12 @@ MonoBehaviour:
   poweredChild: {fileID: 129056533714416227}
   canAttack: 0
   startPoint: {fileID: 0}
---- !u!114 &1046927503688426619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3670553886416234835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cf9345faf3ad37429214c70b3559da4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CoinManager
-  coinsCollected: 0
-  health: 3
-  maps: 0
-  potions: 0
-  textCoin: {fileID: 0}
-  textHealth: {fileID: 0}
-  textMap: {fileID: 0}
-  textPotion: {fileID: 0}
+  arrowPrefab: {fileID: 0}
+  arrowSpawnPoint: {fileID: 0}
+  spear: {fileID: 0}
+  frozenBall: {fileID: 0}
+  mudSound: {fileID: 0}
+  potionSound: {fileID: 0}
+  mapSound: {fileID: 0}
+  iceSound: {fileID: 0}
+  swordSound: {fileID: 0}

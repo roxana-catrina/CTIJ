@@ -16,10 +16,28 @@ public class Enemy1_movement : MonoBehaviour
 
     void Start()
     {
+        // Încearcă să găsești playerul după tag
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        
+        // Dacă nu găsești cu tag-ul, caută după componenta PlayerMovement
+        if (playerObj == null)
+        {
+            PlayerMovement playerMovement = FindAnyObjectByType<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerObj = playerMovement.gameObject;
+                Debug.Log("Enemy found player using FindFirstObjectByType");
+            }
+        }
+        
         if (playerObj != null)
         {
             player = playerObj.transform;
+            Debug.Log("Enemy successfully found player: " + playerObj.name);
+        }
+        else
+        {
+            Debug.LogError("Enemy could not find player!");
         }
 
         rb = GetComponent<Rigidbody2D>();
