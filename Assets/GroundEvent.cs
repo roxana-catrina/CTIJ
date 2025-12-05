@@ -61,17 +61,6 @@ public class GroundEvent : MonoBehaviour
 
         // 6. Revenim cu camera la player
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        
-        // Dacă nu găsim cu tag-ul, caută după componenta PlayerMovement
-        if (player == null)
-        {
-            PlayerMovement playerMovement = FindAnyObjectByType<PlayerMovement>();
-            if (playerMovement != null)
-            {
-                player = playerMovement.gameObject;
-            }
-        }
-        
         if (player != null)
             mainCamera.Follow = player.transform;
     }
