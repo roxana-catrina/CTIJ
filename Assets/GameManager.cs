@@ -36,6 +36,7 @@ public class CoinManager : MonoBehaviour
         }
         else
         {
+            Debug.LogError($"[CoinManager] FATAL: Destroying duplicate instance on object: '{gameObject.name}'. IF THIS IS THE PLAYER, REMOVE THE COINMANAGER SCRIPT FROM IT!");
             Destroy(gameObject);
         }
     }
@@ -90,6 +91,8 @@ public class CoinManager : MonoBehaviour
     [System.Obsolete]
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log($"OnSceneLoaded called for scene: {scene.name}");
+        
         // Salvează nivelul curent când se încarcă Level 1 sau Level 2
         if (scene.name == "Level 1" || scene.name == "Level 2")
         {
@@ -103,6 +106,14 @@ public class CoinManager : MonoBehaviour
             // NU resetăm item1 și item2 aici - rămân păstrate între niveluri
             
             Debug.Log("Potions reset to: " + potions);
+            
+            // VERIFICĂ IMEDIAT dacă playerul există în scenă
+            PlayerMovement[] immediateCheck = FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None);
+            Debug.Log($"IMMEDIATE CHECK: Found {immediateCheck.Length} PlayerMovement objects in scene {scene.name}");
+            foreach (PlayerMovement pm in immediateCheck)
+            {
+                Debug.Log($"  - PlayerMovement on GameObject: {pm.gameObject.name}, Active: {pm.gameObject.activeInHierarchy}");
+            }
             
             // Folosim doar coroutine-ul pentru a aștepta ca Start() să se execute
             StartCoroutine(ResetPlayerAfterSceneLoad());
@@ -128,10 +139,43 @@ public class CoinManager : MonoBehaviour
 
     private System.Collections.IEnumerator ResetPlayerAfterSceneLoad()
     {
-        // Așteaptă mai mult pentru ca Start() să se execute complet
-        yield return new WaitForSeconds(0.2f);
+        Debug.Log("ResetPlayerAfterSceneLoad started, waiting for player...");
         
-        PlayerMovement player = FindObjectOfType<PlayerMovement>();
+        // Așteaptă până găsești playerul (cu timeout)
+        PlayerMovement player = null;
+        float timeout = 2f;
+        float elapsed = 0f;
+        
+        while (player == null && elapsed < timeout)
+        {
+            yield return new WaitForSeconds(0.1f);
+            elapsed += 0.1f;
+            
+            // Caută TOATE obiectele cu PlayerMovement
+            PlayerMovement[] allPlayers = FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None);
+            Debug.Log($"Found {allPlayers.Length} PlayerMovement objects after {elapsed}s");
+            
+            // Găsește playerul care ARE SpriteRenderer (playerul adevărat)
+            foreach (PlayerMovement pm in allPlayers)
+            {
+                Debug.Log($"Checking PlayerMovement on: {pm.gameObject.name}");
+                SpriteRenderer sr = pm.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                {
+                    player = pm;
+                    Debug.Log("Found REAL player with SpriteRenderer: " + pm.gameObject.name);
+                    break;
+                }
+            }
+            
+            // Dacă nu găsim unul cu SpriteRenderer, ia primul disponibil
+            if (player == null && allPlayers.Length > 0)
+            {
+                player = allPlayers[0];
+                Debug.LogWarning("No player with SpriteRenderer found, using first PlayerMovement: " + player.gameObject.name);
+            }
+        }
+        
         if (player != null)
         {
             Debug.Log("Player found after scene load: " + player.gameObject.name);
@@ -143,7 +187,7 @@ public class CoinManager : MonoBehaviour
             player.ResetAppearance();
             
             // Setează camera să urmărească player-ul
-            CinemachineCamera virtualCamera = FindObjectOfType<CinemachineCamera>();
+            CinemachineCamera virtualCamera = FindAnyObjectByType<CinemachineCamera>();
             if (virtualCamera != null)
             {
                 virtualCamera.Follow = player.transform;
@@ -162,7 +206,7 @@ public class CoinManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("PlayerMovement not found after scene load!");
+            Debug.LogError($"PlayerMovement not found after {timeout}s timeout!");
         }
     }
 

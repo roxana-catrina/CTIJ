@@ -8703,7 +8703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1450553439559674, guid: d102c483fad5a1f48b9b947b6be387ea, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1450553439559674, guid: d102c483fad5a1f48b9b947b6be387ea, type: 3}
       propertyPath: m_TagString
@@ -12025,7 +12025,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1837563560
 Transform:
   m_ObjectHideFlags: 0
@@ -13850,7 +13850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc69ff3490bb4244dac0f62085995cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManegerLevel2
-  playerPrefab: {fileID: 2005702487674430594, guid: 75353c589e9c27b4b847900430e6d2b3, type: 3}
+  playerPrefab: {fileID: 3670553886416234835, guid: db8305759b6ea094b9b8326228a0ce6d, type: 3}
   startPoint: {fileID: 2063167833153949584}
   spear: {fileID: 0}
 --- !u!4 &2128171236

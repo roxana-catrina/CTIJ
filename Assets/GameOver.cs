@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f); // Așteaptă ca scena să se încarce complet
         
-        PlayerMovement player = FindObjectOfType<PlayerMovement>();
+        PlayerMovement player = FindAnyObjectByType<PlayerMovement>();
         if (player != null)
         {
             Debug.Log("Player found: " + player.gameObject.name);

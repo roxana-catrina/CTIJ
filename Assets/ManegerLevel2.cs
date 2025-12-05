@@ -4,16 +4,36 @@ public class ManegerLevel2 : MonoBehaviour
 {
     public GameObject playerPrefab;
     public Transform startPoint;
-    public GameManager spear;
+    public GameObject spear; // Corectat din GameManager în GameObject
+
     void Awake()
     {
-        if (FindFirstObjectByType<PlayerMovement>()== null)
+        // Caută StartPoint dacă nu e asignat
+        if (startPoint == null)
         {
-            Instantiate(playerPrefab);
+            GameObject sp = GameObject.Find("StartPoint");
+            if (sp != null) startPoint = sp.transform;
         }
 
-        startPoint = GameObject.Find("StartPoint").transform;
-        spear.SetActive(false);
+        // Verifică dacă playerul există deja
+        if (FindAnyObjectByType<PlayerMovement>() == null)
+        {
+            if (playerPrefab != null)
+            {
+                // Instanțiază playerul la StartPoint dacă există, altfel la (0,0,0)
+                Vector3 spawnPos = startPoint != null ? startPoint.position : Vector3.zero;
+                Instantiate(playerPrefab, spawnPos, Quaternion.identity);
+                Debug.Log("[ManegerLevel2] Player instantiated via script.");
+            }
+            else
+            {
+                Debug.LogError("[ManegerLevel2] CRITICAL: Player Prefab is NOT assigned in Inspector! Please assign it.");
+            }
+        }
 
+        if (spear != null)
+        {
+            spear.SetActive(false);
+        }
     }
 }
