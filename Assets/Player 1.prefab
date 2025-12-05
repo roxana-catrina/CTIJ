@@ -103,6 +103,8 @@ GameObject:
   - component: {fileID: 7712116891524655273}
   - component: {fileID: 483139044987551449}
   - component: {fileID: 957930748163467600}
+  - component: {fileID: 1992807855051754862}
+  - component: {fileID: 8665191908618654808}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -270,15 +272,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   speed: 5
-  poweredChild: {fileID: 129056533714416227}
+  poweredChild: {fileID: 0}
   canAttack: 0
   startPoint: {fileID: 0}
-  arrowPrefab: {fileID: 0}
-  arrowSpawnPoint: {fileID: 0}
-  spear: {fileID: 0}
-  frozenBall: {fileID: 0}
-  mudSound: {fileID: 0}
-  potionSound: {fileID: 0}
-  mapSound: {fileID: 0}
-  iceSound: {fileID: 0}
-  swordSound: {fileID: 0}
+  arrowPrefab: {fileID: 1860706049015914, guid: 0b0c27137eb4d504096874b80ace66bd, type: 3}
+  arrowSpawnPoint: {fileID: 4034617261131484989, guid: ac04f7a86f46f3e4dabe4433d5fa59fd, type: 3}
+  spear: {fileID: 1860706049015914, guid: 0b0c27137eb4d504096874b80ace66bd, type: 3}
+  frozenBall: {fileID: 8496263627464939446, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+  mudSound: {fileID: 8300000, guid: e37e9eea02aa8f84fac6ae518a8bdcd5, type: 3}
+  potionSound: {fileID: 8300000, guid: 0c18f1545b5533b4e9c51b746cf50acc, type: 3}
+  mapSound: {fileID: 8300000, guid: 25cebc8120a9a2543965e9eebd0fb4c4, type: 3}
+  iceSound: {fileID: 8300000, guid: 78df2bcf41bad1042b8be4588e02e7aa, type: 3}
+  swordSound: {fileID: 8300000, guid: 93b4181d3fccc5344962d2aabfaf0703, type: 3}
+--- !u!114 &1992807855051754862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3670553886416234835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3540064f790791047975a45752270a4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
+  hasDiamond: 0
+  hasFireball: 0
+--- !u!114 &8665191908618654808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3670553886416234835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 594d79d2c6e5d9049861eb91e5c9bc6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpearThrow
+  spearPrefab: {fileID: 1860706049015914, guid: 0b0c27137eb4d504096874b80ace66bd, type: 3}
+  frozenBallPrefab: {fileID: 8496263627464939446, guid: 0c9706b98edeb3840a6812e373962cb2, type: 3}
+  projectileSpeed: 10
+  projectileOffset: 0.5
