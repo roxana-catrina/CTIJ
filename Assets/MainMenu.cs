@@ -14,6 +14,13 @@ public class MainMenu : MonoBehaviour
 
     public void ReplayGame()
     {
+        // Oprește muzica surpriză și repornește muzica de fundal
+        SurpriseMusic surpriseMusic = FindFirstObjectByType<SurpriseMusic>();
+        if (surpriseMusic != null)
+        {
+            surpriseMusic.StopSurpriseAndRestoreOriginal();
+        }
+
         // Oprește toate sunetele din scena curentă (inclusiv melodia din FinalScene)
         AudioSource[] allAudioSources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
         foreach (AudioSource audio in allAudioSources)
