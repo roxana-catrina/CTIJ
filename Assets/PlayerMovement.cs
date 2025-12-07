@@ -143,27 +143,31 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Potion"))
+         if (collision.CompareTag("Potion"))
+    {
+        canAttack = true;
+        CoinManager.instance.AddPotion();
+        
+        if (poweredChild != null)
         {
-            canAttack = true;
-            CoinManager.instance.AddPotion(); // adaugă o monedă când iei poțiunea
-            if (poweredChild != null)
-            {
-                // poziționăm poweredChild peste player
-                poweredChild.transform.localPosition = Vector3.zero;
-                poweredChild.SetActive(true);
-            }
-
-            // ascunde modelul normal (dacă playerul principal are SpriteRenderer)
-            SpriteRenderer sr = GetComponent<SpriteRenderer>();
-            if (sr != null)
-                sr.enabled = false;
-
-            if (potionSound != null && audioSource != null)
-                audioSource.PlayOneShot(potionSound);
-
-            Destroy(collision.gameObject);
+            // Activează poweredChild
+            poweredChild.transform.localPosition = Vector3.zero;
+            poweredChild.SetActive(true);
+            
+            // Pornește coroutine pentru a dezactiva după 10 secunde
+            StartCoroutine(DeactivatePoweredChildAfterDelay(10f));
         }
+
+        // Ascunde modelul normal
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+            sr.enabled = false;
+
+        if (potionSound != null && audioSource != null)
+            audioSource.PlayOneShot(potionSound);
+
+        Destroy(collision.gameObject);
+    }
 
 
         if (collision.CompareTag("Map"))
@@ -202,7 +206,25 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
+private System.Collections.IEnumerator DeactivatePoweredChildAfterDelay(float delay)
+{
+    yield return new WaitForSeconds(delay);
+    
+    // După 10 secunde, dezactivează poweredChild și reactivează sprite-ul normal
+    if (poweredChild != null)
+    {
+        poweredChild.SetActive(false);
+    }
+    
+    SpriteRenderer sr = GetComponent<SpriteRenderer>();
+    if (sr != null)
+    {
+        sr.enabled = true;
+    }
+    
+    canAttack = false; // Dezactivează și atacul
+    Debug.Log("PoweredChild deactivated after " + delay + " seconds");
+}
 
 
    private void Attack()
