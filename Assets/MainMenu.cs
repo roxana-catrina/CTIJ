@@ -48,8 +48,8 @@ public class MainMenu : MonoBehaviour
         {
             CoinManager.instance.health = 3;
             CoinManager.instance.coinsCollected = 0;
-            CoinManager.instance.item1 = CoinManager.instance.item1restart;
-            CoinManager.instance.item2 = CoinManager.instance.item2restart;
+            CoinManager.instance.item1 = 0;
+            CoinManager.instance.item2 = 0;
         }
 
         // Încarcă prima scenă a jocului
